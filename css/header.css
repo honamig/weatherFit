@@ -1,0 +1,76 @@
+/* css/header.css */
+/* Header + search */
+.app-header{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 0.75rem;
+}
+
+.header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap: 1rem;
+}
+
+.app-title{
+  margin:0;
+  font-size: 2rem;
+  font-weight:700;
+}
+
+.tagline{
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.search-form{
+  margin-top: 0.9rem;
+  display:grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+}
+
+.search-form input{
+  width:100%;
+  padding: 0.95rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  background: #fff;
+  font-size: 1rem;
+}
+
+.search-form button{
+  padding: 0.95rem 1.1rem;
+  border-radius: 16px;
+  border: none;
+  background: #111;
+  color: #fff;
+  font-size: 1rem;
+  cursor:pointer;
+}
+
+/* Toggle styles reused inside location block */
+.units-toggle{
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(255,255,255,0.75);
+  border-radius: 999px;
+  padding: 0.3rem;
+  display:flex;
+  gap: 0.35rem;
+}
+
+.unit-btn{
+  border: none;
+  background: transparent;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.unit-btn.is-active{
+  background: #111;
+  color: #fff;
+}

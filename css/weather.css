@@ -1,0 +1,270 @@
+/* css/weather.css */
+/* Weather panel + cards */
+.weather-panel{
+  background: var(--panel);
+  border-radius: 28px;
+  padding: 1.25rem;
+  display:grid;
+  gap: 1rem;
+
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.weather-panel > *{
+  min-width: 0;
+}
+
+/* Location */
+.location-block{
+  position: relative;
+  padding: 0.25rem 110px 0.5rem 0; /* space for toggle */
+}
+
+.units-local{
+  position:absolute;
+  top: 0;
+  right: 0;
+}
+
+.country{
+  margin:0;
+  font-weight:600;
+  letter-spacing:0.12em;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.city{
+  margin: 0.2rem 0 0;
+  font-size: 3rem;
+  font-weight:700;
+  line-height: 1.05;
+}
+
+.time{
+  margin: 0.25rem 0 0;
+  font-weight:600;
+  letter-spacing:0.08em;
+  color: var(--muted);
+}
+
+/* Cards */
+.card{
+  background: var(--card);
+  border-radius: 22px;
+  padding: 1.25rem;
+  border: 1px solid rgba(0,0,0,0.04);
+
+  width: 100%;
+  max-width: 100%;
+}
+
+.card-lg{
+  padding: 1.5rem;
+}
+
+.section-title{
+  margin:0 0 0.75rem;
+  font-size: 1.05rem;
+  letter-spacing:0.06em;
+  text-transform: uppercase;
+}
+
+/* Current card layout (mobile first) */
+.current-main{
+  display:grid;
+  grid-template-columns: 72px 1fr;
+  gap: 1rem;
+  align-items:start;
+}
+
+.big-icon{
+  width: 72px;
+  height: 72px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: #111;
+}
+
+.big-icon svg{
+  width: 100%;
+  height: 100%;
+}
+
+.big-temp .temp-number{
+  margin:0;
+  font-size: 3.2rem;
+  font-weight:700;
+}
+
+.big-temp .temp-desc{
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-weight:600;
+}
+
+.side-details{
+  list-style:none;
+  padding:0;
+  margin: 0.75rem 0 0;
+  display:grid;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  grid-column: 1 / -1;
+}
+
+.side-details strong{ color: #111; }
+
+/* Weekly */
+.weekly{
+  background: transparent;
+  border: none;
+  padding: 0.2rem 0 0.6rem;
+}
+
+.weekly-row{
+  display:grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(120px, 1fr);
+  gap: 0.75rem;
+  overflow-x:auto;
+  padding-bottom: 0.25rem;
+
+  scrollbar-width: none;
+}
+.weekly-row::-webkit-scrollbar{ display:none; }
+
+.week-card{
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(255,255,255,0.65);
+  border-radius: 20px;
+  padding: 0.9rem;
+  display:grid;
+  justify-items:center;
+  gap: 0.35rem;
+  min-height: 140px;
+  transition: transform 160ms ease;
+}
+
+.week-card:hover{
+  transform: translateY(-2px);
+}
+
+.week-day{
+  margin:0;
+  font-weight:700;
+}
+
+.week-icon{
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px dashed rgba(0,0,0,0.12);
+}
+
+.week-hi{
+  margin:0.1rem 0 0;
+  font-weight:700;
+}
+
+.week-lo{
+  margin:0;
+  color: var(--muted);
+  font-weight:600;
+}
+
+/* Sun row */
+.sun-row{
+  display:flex;
+  justify-content:space-between;
+  gap: 1rem;
+  padding: 0.25rem 0.25rem 0.75rem;
+}
+
+.sun-item{
+  display:flex;
+  align-items:center;
+  gap: 0.45rem;
+  color: var(--muted);
+  font-weight:600;
+}
+
+.sun-icon{ color:#111; }
+
+.sun-time{
+  color:#111;
+  font-weight:700;
+}
+
+/* Planner placeholder lines */
+.planner-placeholder{
+  width: 100%;
+  display:grid;
+  gap: 0.75rem;
+}
+
+.planner-line{
+  width: 100%;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  background: #fff;
+}
+
+/* Right column planner (desktop) */
+.planner-panel{
+  display:none;
+}
+
+.planner-subtitle{
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.planner-box{
+  background: var(--card);
+  border-radius: 18px;
+  padding: 1rem;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* Desktop layout */
+@media (min-width: 900px){
+  .planner-panel{
+    display:grid;
+    gap: 1rem;
+    align-self:start;
+
+    background: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.65);
+    border-radius: 22px;
+    padding: 1.25rem;
+    min-height: 520px;
+  }
+
+  .planner-mobile{
+    display:none;
+  }
+
+  .weekly-row{
+    grid-auto-columns: minmax(96px, 1fr);
+  }
+}
+
+/* Larger screens: restore 3-column current card */
+@media (min-width: 768px){
+  .current-main{
+    grid-template-columns: 72px 1fr auto;
+    align-items:center;
+  }
+  .side-details{
+    grid-column: auto;
+    margin: 0;
+  }
+}
