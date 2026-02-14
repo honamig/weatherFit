@@ -174,43 +174,64 @@
         </section>
 
         <!-- Activity plan (mobile placement) -->
-        <section class="card planner card-lg planner-mobile" aria-label="Activity plan">
-          <h2 class="section-title">ACTIVITY PLAN</h2>
+        <section class="card planner card-lg planner-mobile fade-in" aria-label="Activity plan">
+          <h2 class="section-title">ACTIVITY PLANNER</h2>
 
-          <!-- Planner block added later -->
-          <div class="planner-placeholder">
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
+          <!-- Suggestions Section -->
+          <div class="planner-box" aria-label="Suggestions">
+            <h3 class="planner-subtitle">Suggested for Clear weather:</h3>
+            
+            <!-- Suggestions will be populated by JS -->
+            <div class="suggestion-list" role="list" id="suggestionListMobile">
+              <!-- JS will add suggestion items here -->
+            </div>
+          </div>
+
+          <!-- Today's Plan Section -->
+          <div class="planner-box" aria-label="Today's plan">
+            <h3 class="planner-subtitle">Today's Plan:</h3>
+            
+            <!-- Plan items will be populated by JS -->
+            <div class="plan-list" role="list" id="planListMobile">
+              <!-- JS will add plan items here -->
+            </div>
+
+            <!-- Add Activity Button -->
+            <button class="btn-add-activity btn-hover ripple" type="button" aria-label="Add new activity">
+              + Add Activity
+            </button>
           </div>
         </section>
       </section>
 
       <!-- Right: Desktop activity planner -->
-      <aside class="planner-panel" aria-label="Activity planner">
+      <aside class="planner-panel slide-in-right" aria-label="Activity planner">
         <h2 class="section-title">ACTIVITY PLANNER</h2>
 
-        <section class="planner-box" aria-label="Suggestions">
-          <h3 class="planner-subtitle">Suggestions</h3>
-          <div class="planner-placeholder">
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
+        <!-- Suggestions Section -->
+        <section class="planner-box fade-in-delay-1" aria-label="Suggestions">
+          <h3 class="planner-subtitle">Suggested for Clear weather:</h3>
+          
+          <!-- Suggestions will be populated by JS -->
+          <div class="suggestion-list" role="list" id="suggestionList">
+            <!-- JS will add suggestion items here -->
           </div>
         </section>
 
-        <section class="planner-box" aria-label="Today’s plan">
-          <h3 class="planner-subtitle">Today’s plan</h3>
-          <div class="planner-placeholder">
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
+        <!-- Today's Plan Section -->
+        <section class="planner-box fade-in-delay-2" aria-label="Today's plan">
+          <h3 class="planner-subtitle">Today's Plan:</h3>
+          
+          <!-- Plan items will be populated by JS -->
+          <div class="plan-list" role="list" id="planList">
+            <!-- JS will add plan items here -->
           </div>
-        </section>
 
-        <!-- Planner sidebar added later -->
+          <!-- Add Activity Button -->
+          <button class="btn-add-activity ripple" type="button" aria-label="Add new activity">
+            + Add Activity
+          </button>
+        </section>
       </aside>
     </div>
   </main>

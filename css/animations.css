@@ -1,0 +1,216 @@
+/* Loading Spinner */
+@keyframes spin {
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--stroke);
+  border-top-color: var(--text);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 2rem auto;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 300ms ease;
+}
+
+/* Delayed fade-in for staggered effects */
+.fade-in-delay-1 {
+  animation: fadeIn 300ms ease 100ms both;
+}
+
+.fade-in-delay-2 {
+  animation: fadeIn 300ms ease 200ms both;
+}
+
+.fade-in-delay-3 {
+  animation: fadeIn 300ms ease 300ms both;
+}
+
+/* Slide In Animation */
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInFromRight 350ms ease;
+}
+
+/* Button Interactions */
+.btn-hover {
+  transition: transform 160ms ease, 
+              box-shadow 160ms ease,
+              background 160ms ease;
+}
+
+.btn-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.btn-hover:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Card Hover Effects */
+.card-hover {
+  transition: transform 160ms ease, 
+              box-shadow 160ms ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/*  Checkbox Animation */
+@keyframes checkboxCheck {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+input[type="checkbox"]:checked {
+  animation: checkboxCheck 200ms ease;
+}
+
+/* Pulse Animation (for weather icons) */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Modal Animations */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-enter {
+  animation: modalFadeIn 250ms ease;
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.modal-exit {
+  animation: modalFadeOut 200ms ease;
+}
+
+/* Skeleton Loading (for weather cards) */
+@keyframes skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--stroke) 0%,
+    rgba(255,255,255,0.8) 50%,
+    var(--stroke) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton 1.5s ease-in-out infinite;
+  border-radius: 12px;
+}
+
+/* Focus Animations */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  transition: outline-offset 160ms ease;
+}
+
+/* Ripple Effect (for buttons) */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.ripple:active::after {
+  animation: ripple 600ms ease-out;
+}
