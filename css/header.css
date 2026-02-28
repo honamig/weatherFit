@@ -1,16 +1,40 @@
-/* css/header.css */
-/* Header + search */
+/* ======================
+   HEADER CONTAINER
+====================== */
+
 .app-header{
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 1.25rem 1.25rem 0.75rem;
 }
+
+
+/* ======================
+   LOGO
+====================== */
+
+.app-logo{
+  position:absolute;
+  top: 10px;
+  left: 16px;
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+  border-radius: 60px;
+}
+
+
+/* ======================
+   BRAND TEXT
+====================== */
 
 .header-top{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
   gap: 1rem;
+  padding-left: 96px;
 }
 
 .app-title{
@@ -24,6 +48,11 @@
   color: var(--muted);
   font-size: 0.95rem;
 }
+
+
+/* ======================
+   SEARCH FORM
+====================== */
 
 .search-form{
   margin-top: 0.9rem;
@@ -51,26 +80,25 @@
   cursor:pointer;
 }
 
-/* Toggle styles reused inside location block */
-.units-toggle{
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(255,255,255,0.75);
-  border-radius: 999px;
-  padding: 0.3rem;
-  display:flex;
-  gap: 0.35rem;
-}
 
-.unit-btn{
-  border: none;
-  background: transparent;
-  padding: 0.55rem 0.8rem;
-  border-radius: 999px;
-  cursor:pointer;
-  font-weight:600;
-}
+/* ======================
+   MOBILE ADJUSTMENTS
+====================== */
 
-.unit-btn.is-active{
-  background: #111;
-  color: #fff;
+@media (max-width: 520px){
+
+  .app-logo{
+    width: 64px;
+    height: 64px;
+    top: 12px;
+    left: 12px;
+  }
+
+  .header-top{
+    padding-left: 84px;
+  }
+
+  .app-title{
+    font-size: 1.8rem;
+  }
 }

@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,30 +6,29 @@
   <meta name="description" content="WeatherFit is a real-time weather dashboard with weekly forecast and smart activity planning based on current weather conditions.">
   <title>WeatherFit</title>
 
-  <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- CSS bundle -->
   <link rel="stylesheet" href="css/base.css" />
+  <link rel="icon" href="img/favicon.png" type="image/png" />
 </head>
 
 <body>
-  <!-- Skip link -->
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Header -->
   <header class="app-header">
     <div class="header-top">
       <div class="brand">
-        <h1 class="app-title">WeatherFit</h1>
-        <p class="tagline">Real-time weather + activity planner</p>
+        <img src="img/logo.png" alt="WeatherFit logo" class="app-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1 class="app-title">WeatherFit</h1>
+          <p class="tagline">Real-time weather + activity planner</p>
+        </div>
       </div>
     </div>
 
-    <!-- Search -->
-    <form class="search-form" id="searchForm" action="#" method="get">
+    <form class="search-form" id="searchForm" action="#" method="get" novalidate>
       <label class="sr-only" for="searchCity">Search city</label>
       <input
         type="search"
@@ -40,153 +38,110 @@
         autocomplete="off"
         required
       />
-      <button type="submit">Search</button>
+      <button type="submit" id="searchBtn">Search</button>
     </form>
+
+    <p id="statusMsg" role="status" aria-live="polite"></p>
   </header>
 
   <main id="main" class="page">
     <div class="layout">
-      <!-- Left: Weather panel -->
+
       <section class="weather-panel" aria-label="Weather dashboard">
-        <!-- Location + Units -->
-        <section class="location-block" aria-label="Location and time">
-          <!-- Units toggle near City -->
-          <div class="units-toggle units-local" role="group" aria-label="Units">
-            <button class="unit-btn" id="unitC" type="button" aria-pressed="false">°C</button>
-            <button class="unit-btn is-active" id="unitF" type="button" aria-pressed="true">°F</button>
+
+        <section class="location-block" aria-label="Location and unit">
+          <div class="location-left">
+            <p class="country" id="country">COUNTRY</p>
+            <h2 class="city" id="cityName">City</h2>
+            <p class="time" id="dayTime">Day • Time</p>
           </div>
 
-          <p class="country" id="country">COUNTRY</p>
-          <p class="city" id="cityName">City</p>
-          <p class="time" id="dayTime">Day • Time</p>
+          <div class="unit-inline" aria-label="Temperature unit">
+            <label class="sr-only" for="unitSelect">Temperature unit</label>
+            <select id="unitSelect" required>
+              <option value="" disabled selected>Temp</option>
+              <option value="fahrenheit">°F</option>
+              <option value="celsius">°C</option>
+            </select>
+          </div>
         </section>
 
-        <!-- Current weather -->
-        <section class="card card-lg current" aria-label="Current weather">
-          <div class="current-main">
-            <!-- Current icon -->
-            <div class="big-icon" id="currentIcon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="4"></circle>
-                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-              </svg>
+        <section class="daily-grid" id="weeklyRow" aria-label="Daily forecast"></section>
+
+        <section class="current-card" aria-label="Current weather">
+          <div class="weather-image-wrap">
+            <img id="weatherImage" src="img/hero/default.jpg" alt="" />
+            <div class="image-overlay">
+              <div class="overlay-left">
+                <p class="big-temp" id="tempNow">--°</p>
+              </div>
+              <div class="overlay-right">
+                <p class="desc" id="conditionText">Weather</p>
+                <p class="feels">Feels like <span id="feelsLike">--°</span></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-grid" aria-label="Weather details">
+            <div class="stat">
+              <div class="stat-top">
+                <img class="stat-icon" src="img/icons/wind.png" alt="" width="18" height="18">
+                <span>Wind</span>
+              </div>
+              <p id="wind">--</p>
             </div>
 
-            <!-- Main readings -->
-            <div class="big-temp">
-              <p class="temp-number" id="tempNow">--°</p>
-              <p class="temp-desc" id="conditionText">Weather description</p>
+            <div class="stat">
+              <div class="stat-top">
+                <img class="stat-icon" src="img/icons/humidity.png" alt="" width="18" height="18">
+                <span>Humidity</span>
+              </div>
+              <p id="humidity">--%</p>
             </div>
 
-            <!-- Side details -->
-            <ul class="side-details" aria-label="Quick details">
-              <li><span>H:</span> <strong id="tempHigh">--°</strong></li>
-              <li><span>L:</span> <strong id="tempLow">--°</strong></li>
-              <li><span>feels like:</span> <strong id="feelsLike">--°</strong></li>
-              <li><span>humidity:</span> <strong id="humidity">--%</strong></li>
-              <li><span>wind:</span> <strong id="wind">--</strong></li>
-            </ul>
+            <div class="stat">
+              <div class="stat-top">
+                <img class="stat-icon" src="img/icons/high.png" alt="" width="18" height="18">
+                <span>High</span>
+              </div>
+              <p id="tempHigh">--°</p>
+            </div>
+
+            <div class="stat">
+              <div class="stat-top">
+                <img class="stat-icon" src="img/icons/low.png" alt="" width="18" height="18">
+                <span>Low</span>
+              </div>
+              <p id="tempLow">--°</p>
+            </div>
+          </div>
+
+          <div class="sun-row" aria-label="Sun times">
+            <div class="sun-item sunrise">
+              <img src="img/icons/sunrise.png" alt="" class="sun-icon" width="22" height="22">
+              <div class="sun-text">
+                <span>Sunrise</span>
+                <strong id="sunrise">--</strong>
+              </div>
+            </div>
+
+            <div class="sun-item sunset">
+              <div class="sun-text">
+                <span>Sunset</span>
+                <strong id="sunset">--</strong>
+              </div>
+              <img src="img/icons/sunset.png" alt="" class="sun-icon" width="22" height="22">
+            </div>
           </div>
         </section>
 
-        <!-- Weekly forecast -->
-        <section class="weekly" aria-label="This week forecast">
-          <h2 class="section-title">THIS WEEK</h2>
-
-          <div class="weekly-row" id="weeklyRow" role="list">
-            <!-- Forecast cards -->
-            <article class="week-card" data-day="0" role="listitem" tabindex="0">
-              <p class="week-day">Day</p>
-              <div class="week-icon" aria-hidden="true"></div>
-              <p class="week-hi">--°</p>
-              <p class="week-lo">--°</p>
-            </article>
-
-            <article class="week-card" data-day="1" role="listitem" tabindex="0">
-              <p class="week-day">Day</p>
-              <div class="week-icon" aria-hidden="true"></div>
-              <p class="week-hi">--°</p>
-              <p class="week-lo">--°</p>
-            </article>
-
-            <article class="week-card" data-day="2" role="listitem" tabindex="0">
-              <p class="week-day">Day</p>
-              <div class="week-icon" aria-hidden="true"></div>
-              <p class="week-hi">--°</p>
-              <p class="week-lo">--°</p>
-            </article>
-
-            <article class="week-card" data-day="3" role="listitem" tabindex="0">
-              <p class="week-day">Day</p>
-              <div class="week-icon" aria-hidden="true"></div>
-              <p class="week-hi">--°</p>
-              <p class="week-lo">--°</p>
-            </article>
-
-            <article class="week-card" data-day="4" role="listitem" tabindex="0">
-              <p class="week-day">Day</p>
-              <div class="week-icon" aria-hidden="true"></div>
-              <p class="week-hi">--°</p>
-              <p class="week-lo">--°</p>
-            </article>
-
-            <article class="week-card" data-day="5" role="listitem" tabindex="0">
-              <p class="week-day">Day</p>
-              <div class="week-icon" aria-hidden="true"></div>
-              <p class="week-hi">--°</p>
-              <p class="week-lo">--°</p>
-            </article>
-
-            <article class="week-card" data-day="6" role="listitem" tabindex="0">
-              <p class="week-day">Day</p>
-              <div class="week-icon" aria-hidden="true"></div>
-              <p class="week-hi">--°</p>
-              <p class="week-lo">--°</p>
-            </article>
-          </div>
+        <section class="hourly" aria-label="Hourly forecast">
+          <h2 class="section-title">HOURLY FORECAST</h2>
+          <div class="hourly-row" id="hourlyRow" role="list"></div>
         </section>
 
-        <!-- Sun times -->
-        <section class="sun-row" aria-label="Sun times">
-          <div class="sun-item">
-            <span class="sun-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 18h18"></path>
-                <path d="M7 18a5 5 0 0 1 10 0"></path>
-                <path d="M12 2v6"></path>
-              </svg>
-            </span>
-            <span class="sun-label">sunrise</span>
-            <span class="sun-time" id="sunrise">--</span>
-          </div>
-
-          <div class="sun-item">
-            <span class="sun-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 18h18"></path>
-                <path d="M7 18a5 5 0 0 1 10 0"></path>
-                <path d="M12 2v6"></path>
-              </svg>
-            </span>
-            <span class="sun-label">sunset</span>
-            <span class="sun-time" id="sunset">--</span>
-          </div>
-        </section>
-
-        <!-- Activity plan (mobile placement) -->
-        <section class="card planner card-lg planner-mobile" aria-label="Activity plan">
-          <h2 class="section-title">ACTIVITY PLAN</h2>
-
-          <!-- Planner block added later -->
-          <div class="planner-placeholder">
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-          </div>
-        </section>
       </section>
 
-      <!-- Right: Desktop activity planner -->
       <aside class="planner-panel" aria-label="Activity planner">
         <h2 class="section-title">ACTIVITY PLANNER</h2>
 
@@ -201,22 +156,23 @@
 
         <section class="planner-box" aria-label="Today’s plan">
           <h3 class="planner-subtitle">Today’s plan</h3>
-          <div class="planner-placeholder">
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-            <div class="planner-line"></div>
-          </div>
+        
+          <label class="sr-only" for="todayPlanInput">Today's plan</label>
+          <textarea
+            id="todayPlanInput"
+            placeholder="Add your plan for today..."
+            rows="6"
+          ></textarea>
         </section>
-
-        <!-- Planner sidebar added later -->
       </aside>
+
     </div>
   </main>
 
   <footer class="app-footer">
     <small>© 2026 WeatherFit</small>
   </footer>
+
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
