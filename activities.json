@@ -1,0 +1,69 @@
+{
+  "sunny": {
+    "indoor": [
+      { "name": "Art Project", "description": "Perfect day to work on a creative art or painting project indoors." },
+      { "name": "Cook a New Recipe", "description": "Try cooking something new while enjoying the sunny vibes." },
+      { "name": "Read a Book", "description": "Relax indoors with a good book and natural light." }
+    ],
+    "outdoor": [
+      { "name": "Picnic in the Park", "description": "Pack a lunch and enjoy the sunshine outdoors." },
+      { "name": "Hiking", "description": "Great weather for hitting a local trail." },
+      { "name": "Cycling", "description": "Go for a bike ride and enjoy the clear skies." },
+      { "name": "Outdoor Photography", "description": "Capture beautiful shots in the bright natural light." },
+      { "name": "Beach or Lake Visit", "description": "Head to the water and soak up the sun." }
+    ]
+  },
+  "cloudy": {
+    "indoor": [
+      { "name": "Watch a Movie", "description": "Cozy up and enjoy a film on this overcast day." },
+      { "name": "Board Games", "description": "Play board games with friends or family." },
+      { "name": "Journaling", "description": "Reflect and write in your journal." },
+      { "name": "Online Course", "description": "Learn something new with an online class." }
+    ],
+    "outdoor": [
+      { "name": "Nature Walk", "description": "Cloudy days are great for comfortable walks." },
+      { "name": "Visit a Market", "description": "Browse a local farmers market or flea market." },
+      { "name": "Outdoor Yoga", "description": "Practice yoga in the cool, overcast weather." }
+    ]
+  },
+  "rainy": {
+    "indoor": [
+      { "name": "Bake Something", "description": "A rainy day is perfect for baking cookies or bread." },
+      { "name": "Puzzle or Game", "description": "Work on a jigsaw puzzle or play a card game." },
+      { "name": "Deep Clean", "description": "Tackle that cleaning project you've been putting off." },
+      { "name": "Streaming Marathon", "description": "Catch up on your favorite show or discover a new series." },
+      { "name": "Creative Writing", "description": "Let the rain inspire your writing." }
+    ],
+    "outdoor": [
+      { "name": "Rainy Walk with Umbrella", "description": "Enjoy the sound of rain on a short walk." },
+      { "name": "Visit a Covered Market", "description": "Explore an indoor or covered market nearby." }
+    ]
+  },
+  "snow": {
+    "indoor": [
+      { "name": "Hot Cocoa & Movie", "description": "Warm up with hot cocoa and a classic film." },
+      { "name": "Knitting or Crafts", "description": "Work on a cozy craft project by the window." },
+      { "name": "Cook a Stew", "description": "Make a warm, hearty meal for the cold day." },
+      { "name": "Read by the Window", "description": "Enjoy a book while watching the snow fall." }
+    ],
+    "outdoor": [
+      { "name": "Build a Snowman", "description": "Get outside and have fun in the snow." },
+      { "name": "Sledding", "description": "Find a hill and go sledding with friends or family." },
+      { "name": "Snowshoeing", "description": "Explore snowy trails on snowshoes." },
+      { "name": "Snowball Fight", "description": "Have a fun snowball fight outdoors." }
+    ]
+  },
+  "cold": {
+    "indoor": [
+      { "name": "Visit a Museum", "description": "Warm up while exploring art or history." },
+      { "name": "Escape Room", "description": "Challenge yourself at an indoor escape room." },
+      { "name": "Yoga or Stretching", "description": "Do an indoor yoga session to stay warm and active." },
+      { "name": "Meal Prep", "description": "Spend the day preparing warm meals for the week." }
+    ],
+    "outdoor": [
+      { "name": "Brisk Morning Walk", "description": "Bundle up and take a quick walk to get moving." },
+      { "name": "Ice Skating", "description": "Head to an outdoor or indoor rink for ice skating." },
+      { "name": "Winter Market", "description": "Browse a cozy winter market with warm drinks." }
+    ]
+  }
+}
