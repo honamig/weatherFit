@@ -1,0 +1,250 @@
+/* =========================================================
+   animations.css  –  WeatherFit (updated by Honami)
+   ========================================================= */
+
+/* Loading Spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--stroke);
+  border-top-color: var(--text);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 2rem auto;
+}
+
+/* Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.fade-in            { animation: fadeIn 300ms ease; }
+.fade-in-delay-1    { animation: fadeIn 300ms ease 100ms both; }
+.fade-in-delay-2    { animation: fadeIn 300ms ease 200ms both; }
+.fade-in-delay-3    { animation: fadeIn 300ms ease 300ms both; }
+
+/* Slide In from Right */
+@keyframes slideInFromRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+.slide-in-right { animation: slideInFromRight 350ms ease; }
+
+/* Button hover */
+.btn-hover {
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.btn-hover:hover  { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+.btn-hover:active { transform: translateY(0);    box-shadow: 0 2px 6px  rgba(0,0,0,.08); }
+
+/* Card hover */
+.card-hover { transition: transform 160ms ease, box-shadow 160ms ease; }
+.card-hover:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,.08); }
+
+/* Checkbox */
+@keyframes checkboxCheck {
+  0%   { transform: scale(0.8); }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1);   }
+}
+input[type="checkbox"]:checked { animation: checkboxCheck 200ms ease; }
+
+/* Pulse (weather icons) */
+@keyframes pulse {
+  0%, 100% { opacity: 1;    transform: scale(1);    }
+  50%       { opacity: 0.85; transform: scale(1.05); }
+}
+.pulse { animation: pulse 2s ease-in-out infinite; }
+
+/* Modal */
+@keyframes modalFadeIn  { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:scale(1); } }
+@keyframes modalFadeOut { from { opacity:1; transform:scale(1);   } to { opacity:0; transform:scale(.95); } }
+.modal-enter { animation: modalFadeIn  250ms ease; }
+.modal-exit  { animation: modalFadeOut 200ms ease; }
+
+/* Skeleton */
+@keyframes skeleton {
+  0%   { background-position: 200%  0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--stroke) 0%, rgba(255,255,255,.8) 50%, var(--stroke) 100%);
+  background-size: 200% 100%;
+  animation: skeleton 1.5s ease-in-out infinite;
+  border-radius: 12px;
+}
+
+/* Focus */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  transition: outline-offset 160ms ease;
+}
+
+/* Ripple */
+@keyframes ripple {
+  0%   { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(2); opacity: 0;   }
+}
+.ripple { position: relative; overflow: hidden; }
+.ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,.5);
+  border-radius: 50%;
+  transform: translate(-50%,-50%) scale(0);
+  pointer-events: none;
+}
+.ripple:active::after { animation: ripple 600ms ease-out; }
+
+
+/* ─────────────────────────────────────────────────────────
+   HONAMI ADDITIONS  (Task 17)
+   ───────────────────────────────────────────────────────── */
+
+/* Suggestion button entrance */
+@keyframes suggestionPop {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+
+.suggestion-item {
+  animation: suggestionPop 250ms ease both;
+  transition: transform 160ms ease,
+              box-shadow 160ms ease,
+              background  160ms ease,
+              border-color 160ms ease;
+}
+
+/* Stagger suggestions */
+.suggestion-item:nth-child(1) { animation-delay: 0ms;   }
+.suggestion-item:nth-child(2) { animation-delay: 60ms;  }
+.suggestion-item:nth-child(3) { animation-delay: 120ms; }
+.suggestion-item:nth-child(4) { animation-delay: 180ms; }
+.suggestion-item:nth-child(5) { animation-delay: 240ms; }
+
+/* Suggestion hover */
+.suggestion-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.10);
+  background: rgba(255,255,255,.9) !important;
+  border-color: rgba(0,0,0,.12) !important;
+}
+
+.suggestion-item:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
+}
+
+/* Suggestion text block */
+.suggestion-text-block {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.suggestion-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.suggestion-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.suggestion-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Filter row */
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.filter-select {
+  padding: 0.55rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.2rem;
+}
+
+.filter-select:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-color: var(--focus);
+}
+
+.filter-select:hover {
+  border-color: rgba(0,0,0,.25);
+}
+
+/* Suggestions card */
+.suggestions-card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 1.5rem;
+  border: 1px solid rgba(0,0,0,.04);
+}
+
+/* Toast notification */
+@keyframes toastIn  { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
+@keyframes toastOut { from { opacity:1; transform: translateY(0);    } to { opacity:0; transform: translateY(8px); } }
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 9999;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+  animation: toastIn 250ms ease;
+}
+
+.toast-hide {
+  animation: toastOut 300ms ease forwards;
+}
+
+/* details.html grid: suggestions card full width */
+@media (min-width: 900px) {
+  .suggestions-card {
+    grid-column: 1 / -1;
+  }
+}

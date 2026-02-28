@@ -1,0 +1,291 @@
+/* Header */
+.details-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  background: var(--card);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 160ms ease;
+}
+
+.back-link:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--text);
+  transform: translateY(-1px);
+}
+
+.back-link:active {
+  transform: translateY(0);
+}
+
+.back-link svg {
+  flex-shrink: 0;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Main Container */
+.details-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.25rem 2rem;
+}
+
+.details-container {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Desktop Layout */
+@media (min-width: 900px) {
+  .details-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .activity-card {
+    grid-column: 1 / -1;
+  }
+
+  .weather-details-card {
+    grid-column: 1;
+  }
+
+  .plan-card {
+    grid-column: 2;
+  }
+}
+
+/* Card Title */
+.card-title {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Activity Card */
+.activity-card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.activity-header {
+  margin-bottom: 1.5rem;
+}
+
+.activity-title-block {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.activity-name {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.activity-category {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Activity Info Grid */
+.activity-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 16px;
+}
+
+.info-item {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.info-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.info-value {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Activity Description */
+.activity-description {
+  padding-top: 1rem;
+  border-top: 1px solid var(--stroke);
+}
+
+.description-title {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.description-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* Weather Details Card */
+.weather-details-card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.day-weather-main {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.day-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+}
+
+.day-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.day-temp-block {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.day-temp {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.day-condition {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Day Details Grid */
+.day-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 16px;
+}
+
+.detail-item {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.detail-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.detail-value {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Plan Card */
+.plan-card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .activity-info-grid,
+  .day-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .day-weather-main {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .day-icon {
+    margin: 0 auto;
+  }
+
+  .activity-name {
+    font-size: 1.5rem;
+  }
+
+  .day-temp {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 899px) {
+  .activity-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

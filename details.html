@@ -1,0 +1,144 @@
+<!-- details.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Activity details for your WeatherFit plan">
+  <title>Activity Details - WeatherFit</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/details.css" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="details-header">
+    <div class="header-container">
+      <a href="index.html" class="back-link btn-hover" aria-label="Back to home">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span>Back</span>
+      </a>
+      <div class="brand">
+        <h1 class="page-title">Activity Details</h1>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="details-page">
+    <div class="details-container">
+
+      <!-- Activity Info Card -->
+      <section class="card activity-card fade-in" aria-label="Activity information">
+        <h2 class="card-title">Activity Information</h2>
+        <div class="activity-header">
+          <div class="activity-title-block">
+            <p class="activity-name" id="activityName"></p>
+            <p class="activity-category" id="activityCategory"></p>
+          </div>
+        </div>
+        <div class="activity-info-grid">
+          <div class="info-item">
+            <span class="info-label">Location</span>
+            <p class="info-value" id="activityLocation"></p>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Time</span>
+            <p class="info-value" id="activityTime"></p>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Duration</span>
+            <p class="info-value" id="activityDuration"></p>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Date</span>
+            <p class="info-value" id="activityDate"></p>
+          </div>
+        </div>
+        <div class="activity-description">
+          <h3 class="description-title">Description</h3>
+          <p class="description-text" id="activityDescription"></p>
+        </div>
+      </section>
+
+      <!-- Day Weather Details Card -->
+      <section class="card weather-details-card fade-in-delay-1" aria-label="Weather details for this day">
+        <h2 class="card-title">Day Details</h2>
+        <div class="day-weather-main">
+          <div class="day-icon" id="dayIcon" aria-hidden="true"></div>
+          <div class="day-temp-block">
+            <p class="day-temp" id="dayTemp"></p>
+            <p class="day-condition" id="dayCondition"></p>
+          </div>
+        </div>
+        <div class="day-details-grid">
+          <div class="detail-item">
+            <span class="detail-label">High</span>
+            <p class="detail-value" id="dayHigh"></p>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Low</span>
+            <p class="detail-value" id="dayLow"></p>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Humidity</span>
+            <p class="detail-value" id="dayHumidity"></p>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Wind</span>
+            <p class="detail-value" id="dayWind"></p>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Sunrise</span>
+            <p class="detail-value" id="daySunrise">--</p>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Sunset</span>
+            <p class="detail-value" id="daySunset">--</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Activity Suggestions Card -->
+      <section class="card suggestions-card fade-in-delay-1" aria-label="Activity suggestions">
+        <h2 class="card-title">Activity Suggestions</h2>
+        <div class="filter-row">
+          <label for="activityFilter" class="filter-label">Filter Activities:</label>
+          <select id="activityFilter" class="filter-select" aria-label="Filter activities by type">
+            <option value="all">All Activities</option>
+            <option value="indoor">Indoor</option>
+            <option value="outdoor">Outdoor</option>
+          </select>
+        </div>
+        <h3 class="planner-subtitle" id="suggestionSubtitle">Suggested activities:</h3>
+        <div class="suggestion-list" role="list" id="suggestionList">
+        </div>
+      </section>
+
+      <!-- Plan for This Day Card -->
+      <section class="card plan-card fade-in-delay-2" aria-label="Plan for this day">
+        <h2 class="card-title">Plan for This Day</h2>
+        <div class="plan-list" role="list" id="dayPlanList">
+        </div>
+        <button class="btn-add-activity btn-hover ripple" type="button" aria-label="Add new activity">
+          + Add Activity
+        </button>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <small>© 2026 WeatherFit</small>
+  </footer>
+
+  <script type="module" src="js/details.js"></script>
+</body>
+</html>
