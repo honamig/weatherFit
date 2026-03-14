@@ -247,3 +247,41 @@ export function renderAll({ place, forecast, unitSymbol }) {
   renderDaily(forecast, unitSymbol);
   renderHourly(forecast, unitSymbol);
 }
+export function renderWeatherWarning(weatherData, unit = "fahrenheit") {
+  const warningBox = document.getElementById("weatherWarning");
+
+  if (!warningBox) return;
+
+  const current = weatherData.current || {};
+  const daily = weatherData.daily || {};
+  const hourly = weatherData.hourly || {};
+
+  let temperature = current.temperature_2m;
+  const windSpeed = current.wind_speed_10m || 0;
+  const precipitationNow = hourly.precipitation?.[0] || 0;
+  const snowfallToday = daily.snowfall_sum?.[0] || 0;
+
+  if (unit === "fahrenheit" && typeof temperature === "number") {
+    temperature = (temperature * 9) / 5 + 32;
+  }
+
+  let warningMessage = "";
+
+  if (typeof temperature === "number" && temperature >= 95) {
+    warningMessage = "Heat Warning: High temperatures may make outdoor activities unsafe. Stay hydrated and limit time in direct sun.";
+  } else if (windSpeed >= 25) {
+    warningMessage = "Strong Wind Warning: Windy conditions may affect outdoor activities. Use caution if spending time outside.";
+  } else if (precipitationNow >= 5) {
+    warningMessage = "Heavy Rain Alert: Rain may affect outdoor plans. Consider indoor activities or bring rain gear.";
+  } else if (snowfallToday > 0) {
+    warningMessage = "Snow Alert: Snowy conditions may make travel and outdoor activities more difficult.";
+  }
+
+  if (warningMessage) {
+    warningBox.textContent = warningMessage;
+    warningBox.classList.remove("hidden");
+  } else {
+    warningBox.textContent = "";
+    warningBox.classList.add("hidden");
+  }
+}

@@ -355,3 +355,27 @@
   outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
+
+.weather-warning {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  background: #fff4cc;
+  color: #5f4300;
+  border: 1px solid #f0d98a;
+}
+
+.warning-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.hidden {
+  display: none;
+}

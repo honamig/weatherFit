@@ -33,6 +33,54 @@ function validateCityInput(value) {
   return { ok: true, message: "" };
 }
 
+function getWeatherWarning(forecast) {
+  const current = forecast?.current || {};
+  const hourly = forecast?.hourly || {};
+  const daily = forecast?.daily || {};
+
+  const unit = getUnit();
+  const temp = current.temperature_2m;
+  const wind = current.wind_speed_10m || 0;
+  const precipitationNow = hourly.precipitation?.[0] || 0;
+  const snowfallToday = daily.snowfall_sum?.[0] || 0;
+
+  const heatThreshold = unit === "celsius" ? 32 : 90;
+
+  if (typeof temp === "number" && temp >= heatThreshold) {
+    return "Heat Warning: High temperatures may make outdoor activities uncomfortable or unsafe. Stay hydrated and limit time in direct sun.";
+  }
+
+  if (wind >= 20) {
+    return "Strong Wind Warning: Windy conditions may affect outdoor activities. Use caution when outside.";
+  }
+
+  if (precipitationNow >= 2) {
+    return "Rain Alert: Wet weather may affect outdoor plans. Consider indoor activities or bring rain gear.";
+  }
+
+  if (snowfallToday > 0) {
+    return "Snow Alert: Snowy conditions may make travel and outdoor activities more difficult.";
+  }
+
+  return "";
+}
+
+function renderWeatherWarning(message) {
+  const warningBox = document.getElementById("weatherWarning");
+  const warningText = document.getElementById("weatherWarningText");
+
+  if (!warningBox || !warningText) return;
+
+  if (!message) {
+    warningText.textContent = "";
+    warningBox.classList.add("hidden");
+    return;
+  }
+
+  warningText.textContent = message;
+  warningBox.classList.remove("hidden");
+}
+
 /* -------------------------------------------------------
    Search Flow
 ------------------------------------------------------- */
@@ -59,6 +107,8 @@ async function runSearch(city) {
       forecast,
       unitSymbol: unitSymbol(unit)
     });
+
+    renderWeatherWarning(getWeatherWarning(forecast));
 
     // Save to localStorage
     saveForecastBundle({
@@ -172,6 +222,8 @@ function initAutoLoad() {
     forecast: bundle.forecast,
     unitSymbol: unitSymbol(bundle.unit || getUnit())
   });
+
+  renderWeatherWarning(getWeatherWarning(bundle.forecast));
 }
 
 /* -------------------------------------------------------
@@ -207,6 +259,8 @@ function initDefaultLocation() {
           forecast,
           unitSymbol: unitSymbol(unit)
         });
+
+        renderWeatherWarning(getWeatherWarning(forecast));
 
         saveForecastBundle({
           place,

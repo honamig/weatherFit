@@ -30,8 +30,8 @@ export async function fetchForecast(lat, lon, unit) {
     `&temperature_unit=${safeUnit}` +
     `&wind_speed_unit=mph` +
     `&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m` +
-    `&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m` +
-    `&daily=temperature_2m_max,temperature_2m_min,weather_code,sunrise,sunset`;
+    `&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation` +
+    `&daily=temperature_2m_max,temperature_2m_min,weather_code,sunrise,sunset,snowfall_sum`;
 
   const res = await fetch(url);
   if (!res.ok) throw new Error("forecast_failed");
