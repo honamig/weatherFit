@@ -62,7 +62,6 @@
 @media (min-width: 900px) {
   .details-container {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
   }
 
   .activity-card {
@@ -75,6 +74,10 @@
 
   .plan-card {
     grid-column: 2;
+  }
+
+  .suggestions-card {
+    grid-column: 1 / -1;
   }
 }
 
@@ -259,6 +262,162 @@
   border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
+/* Suggestions — text left-aligned */
+.suggestion-item {
+  text-align: left;
+}
+
+.suggestion-name {
+  text-align: left;
+}
+
+.suggestion-desc {
+  text-align: left;
+}
+
+/* ── Circle toggle (○ / ●) ── */
+.suggestion-circle {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--text);
+  background: transparent;
+  transition: background 200ms ease, border-color 200ms ease, transform 160ms ease;
+  display: block;
+}
+
+.suggestion-item.is-added .suggestion-circle {
+  background: var(--text);
+  border-color: var(--text);
+}
+
+.suggestion-item.is-added {
+  opacity: 0.55;
+}
+
+/* ── Modal overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  animation: modalFadeIn 250ms ease;
+}
+
+.modal-title {
+  margin: 0 0 1.25rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.modal-field {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.modal-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.modal-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  transition: border-color 160ms ease;
+  box-sizing: border-box;
+}
+
+.modal-input:focus {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-color: var(--focus);
+}
+
+.modal-input.error {
+  border-color: #e24b4a;
+}
+
+.modal-error {
+  font-size: 0.8rem;
+  color: #e24b4a;
+  font-weight: 600;
+  min-height: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.btn-modal-cancel {
+  flex: 1;
+  padding: 0.85rem;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.btn-modal-cancel:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.btn-modal-add {
+  flex: 2;
+  padding: 0.85rem;
+  border-radius: 14px;
+  border: none;
+  background: #111;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.btn-modal-add:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.btn-modal-add:active {
+  transform: translateY(0);
+}
+
 /* Responsive Adjustments */
 @media (max-width: 480px) {
   .activity-info-grid,
@@ -282,10 +441,48 @@
   .day-temp {
     font-size: 2rem;
   }
+
+  .modal-actions {
+    flex-direction: column;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 899px) {
   .activity-info-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+/* ── Full-width Add Activity button (details page) ── */
+.btn-add-activity-full {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 2px solid var(--stroke);
+  background: transparent;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 160ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.btn-add-activity-full:hover {
+  border-color: var(--text);
+  background: rgba(0, 0, 0, 0.02);
+  transform: translateY(-1px);
+}
+
+.btn-add-activity-full:active {
+  transform: translateY(0);
+}
+
+.btn-add-activity-full:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
 }

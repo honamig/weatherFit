@@ -106,6 +106,16 @@
         </div>
       </section>
 
+      <!-- Plan for This Day Card -->
+      <section class="card plan-card fade-in-delay-2" aria-label="Plan for this day">
+        <h2 class="card-title">Plan for This Day</h2>
+        <div class="plan-list" role="list" id="dayPlanList">
+        </div>
+        <button class="btn-add-activity-full btn-hover ripple" type="button" id="openModalBtn" aria-label="Add new activity">
+          + Add Activity
+        </button>
+      </section>
+
       <!-- Activity Suggestions Card -->
       <section class="card suggestions-card fade-in-delay-1" aria-label="Activity suggestions">
         <h2 class="card-title">Activity Suggestions</h2>
@@ -122,18 +132,45 @@
         </div>
       </section>
 
-      <!-- Plan for This Day Card -->
-      <section class="card plan-card fade-in-delay-2" aria-label="Plan for this day">
-        <h2 class="card-title">Plan for This Day</h2>
-        <div class="plan-list" role="list" id="dayPlanList">
-        </div>
-        <button class="btn-add-activity btn-hover ripple" type="button" aria-label="Add new activity">
-          + Add Activity
-        </button>
-      </section>
-
     </div>
   </main>
+
+  <!-- Add Activity Modal -->
+  <div class="modal-overlay hidden" id="activityModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <h2 class="modal-title" id="modalTitle">Add an Activity</h2>
+
+      <div class="modal-field">
+        <label class="modal-label" for="modalActivityName">Activity name <span aria-hidden="true">*</span></label>
+        <input
+          type="text"
+          id="modalActivityName"
+          class="modal-input"
+          placeholder="e.g. Morning run"
+          maxlength="80"
+          autocomplete="off"
+        />
+        <span class="modal-error" id="modalNameError" aria-live="polite"></span>
+      </div>
+
+      <div class="modal-field">
+        <label class="modal-label" for="modalActivityDesc">Description (optional)</label>
+        <input
+          type="text"
+          id="modalActivityDesc"
+          class="modal-input"
+          placeholder="e.g. 30 min jog around the park"
+          maxlength="120"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" type="button" id="cancelModalBtn">Cancel</button>
+        <button class="btn-modal-add" type="button" id="confirmModalBtn">Add to Plan</button>
+      </div>
+    </div>
+  </div>
 
   <footer class="app-footer">
     <small>© 2026 WeatherFit</small>
