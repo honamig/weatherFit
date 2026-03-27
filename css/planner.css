@@ -1,22 +1,50 @@
 /* Planner Panel Base */
 .planner-panel {
-  display: none;
+  display: grid;
+  gap: 1rem;
+  align-self: start;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 22px;
+  padding: 1.25rem;
 }
 
 @media (min-width: 900px) {
   .planner-panel {
-    display: grid;
-    gap: 1rem;
-    align-self: start;
-    background: rgba(255, 255, 255, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.65);
-    border-radius: 22px;
-    padding: 1.25rem;
     min-height: 520px;
   }
 
   .planner-mobile {
     display: none;
+  }
+
+  /* Limit plan list height and enable scroll on desktop (5+ items) */
+  .plan-list-scroll {
+    max-height: 280px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--stroke) transparent;
+  }
+
+  .plan-list-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .plan-list-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .plan-list-scroll::-webkit-scrollbar-thumb {
+    background: var(--stroke);
+    border-radius: 4px;
+  }
+}
+
+@media (max-width: 899px) {
+  /* Show planner on mobile, stacked below weather */
+  .planner-panel {
+    display: grid;
+    order: 99;
   }
 }
 
@@ -183,6 +211,32 @@
   font-weight: 600;
 }
 
+/* Description text in plan list items */
+.plan-desc {
+  font-size: 0.82rem;
+  color: #444;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* Inline date edit input inside plan item */
+.plan-date-edit {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  border: 1px solid var(--stroke);
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.4rem center;
+  padding-right: 1.4rem;
+}
+
 /* Checked state */
 .plan-checkbox:checked + .plan-label .plan-title {
   text-decoration: line-through;
@@ -277,7 +331,7 @@
 /* Plan item actions (edit/delete) */
 .plan-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.75rem;
   padding: 0.75rem 0.9rem;
   background: #fff;
@@ -338,4 +392,81 @@
   font-weight: 600;
   color: var(--text);
   outline: none;
+}
+
+/* ── Inline add form (index page) ── */
+.inline-add-form {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  animation: fadeIn 200ms ease;
+}
+
+.inline-add-form.hidden {
+  display: none;
+}
+
+.inline-add-input {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--text);
+  box-sizing: border-box;
+  transition: border-color 160ms ease;
+}
+
+.inline-add-input:focus {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-color: var(--focus);
+}
+
+.inline-add-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-inline-cancel {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 10px;
+  border: 1px solid var(--stroke);
+  background: transparent;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.btn-inline-cancel:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+.btn-inline-confirm {
+  flex: 2;
+  padding: 0.6rem;
+  border-radius: 10px;
+  border: none;
+  background: #111;
+  color: #fff;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.btn-inline-confirm:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.btn-inline-confirm:active {
+  transform: translateY(0);
 }

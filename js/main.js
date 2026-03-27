@@ -35,58 +35,149 @@ function getActivityCategory(wmoCode, tempValue, unit) {
 }
 
 /* -------------------------------------------------------
-   Today's Plan — localStorage
+   Shared selectedActivities storage
 ------------------------------------------------------- */
 
-const TODAY_ITEMS_KEY = "wf_today_items";
+const SELECTED_KEY = "selectedActivities";
 
-function loadTodayItems() {
-  try { return JSON.parse(localStorage.getItem(TODAY_ITEMS_KEY) || "[]"); }
+function loadAllActivities() {
+  try { return JSON.parse(localStorage.getItem(SELECTED_KEY) || "[]"); }
   catch { return []; }
 }
 
-function saveTodayItems(items) {
-  localStorage.setItem(TODAY_ITEMS_KEY, JSON.stringify(items));
+function saveAllActivities(all) {
+  localStorage.setItem(SELECTED_KEY, JSON.stringify(all));
 }
+
+function getCityName() {
+  return loadForecastBundle()?.place?.name || "";
+}
+
+/* -------------------------------------------------------
+   Date dropdown helper
+------------------------------------------------------- */
+
+function buildDateOptions(selectEl, defaultDate) {
+  if (!selectEl) return;
+  selectEl.innerHTML = "";
+  const bundle = loadForecastBundle();
+  const dates  = bundle?.forecast?.daily?.time || [];
+
+  if (dates.length === 0) {
+    const today = new Date().toISOString().slice(0, 10);
+    const opt = document.createElement("option");
+    opt.value       = today;
+    opt.textContent = new Date(today + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    selectEl.appendChild(opt);
+    return;
+  }
+
+  dates.forEach(dateStr => {
+    const opt = document.createElement("option");
+    opt.value       = dateStr;
+    opt.textContent = new Date(dateStr + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    if (dateStr === defaultDate) opt.selected = true;
+    selectEl.appendChild(opt);
+  });
+}
+
+function getSelectedDate() {
+  return document.getElementById("plannerDateSelect")?.value || new Date().toISOString().slice(0, 10);
+}
+
+/* -------------------------------------------------------
+   Category for a given date
+------------------------------------------------------- */
+
+function getCategoryForDate(dateStr) {
+  const bundle = loadForecastBundle();
+  const dates  = bundle?.forecast?.daily?.time || [];
+  const codes  = bundle?.forecast?.daily?.weather_code || [];
+  const lows   = bundle?.forecast?.daily?.temperature_2m_min || [];
+  const unit   = bundle?.unit || "fahrenheit";
+  const idx    = dates.indexOf(dateStr);
+  const wmo    = idx >= 0 ? (codes[idx] ?? 0) : 0;
+  const low    = idx >= 0 ? (lows[idx]  ?? 20) : 20;
+  return getActivityCategory(wmo, low, unit);
+}
+
+/* -------------------------------------------------------
+   Plan list — shows all activities for current city
+   Description shown in dark grey; date is an inline editable select
+------------------------------------------------------- */
 
 function renderPlanList() {
   const container = document.getElementById("plannerPlanList");
   if (!container) return;
 
-  const items = loadTodayItems();
+  const all  = loadAllActivities();
+  const city = getCityName();
+
+  const cityItems = all
+    .map((a, i) => ({ ...a, _globalIndex: i }))
+    .filter(a => a.city === city);
+
   container.innerHTML = "";
 
-  if (items.length === 0) {
+  if (cityItems.length >= 5) {
+    container.classList.add("plan-list-scroll");
+  } else {
+    container.classList.remove("plan-list-scroll");
+  }
+
+  if (cityItems.length === 0) {
     container.innerHTML = `<p class="plan-empty" style="padding:0.5rem 0">No activities yet.</p>`;
     return;
   }
 
-  items.forEach((text, i) => {
-    const id  = `plan-main-${i}`;
+  cityItems.forEach((item) => {
+    const globalIndex = item._globalIndex;
+    const id  = `plan-main-${globalIndex}`;
     const div = document.createElement("div");
     div.className = "plan-item fade-in";
     div.setAttribute("role", "listitem");
+
+    const descHtml = item.description
+      ? `<span class="plan-desc">${item.description}</span>`
+      : "";
+
     div.innerHTML = `
       <input type="checkbox" class="plan-checkbox" id="${id}">
       <label class="plan-label" for="${id}">
         <div class="plan-info">
-          <span class="plan-title">${text}</span>
+          <span class="plan-title">${item.activity}</span>
+          ${descHtml}
+          <div class="plan-details">
+            <select class="plan-date-edit" aria-label="Change date for ${item.activity}"></select>
+          </div>
         </div>
       </label>
       <div class="plan-item-actions">
-        <button class="plan-action-btn edit" aria-label="Edit ${text}" title="Edit">Edit</button>
-        <button class="plan-action-btn delete" aria-label="Delete ${text}" title="Delete">&#x2715;</button>
+        <button class="plan-action-btn delete" aria-label="Delete ${item.activity}" title="Delete">&#x2715;</button>
       </div>
     `;
 
-    div.querySelector(".plan-action-btn.edit").addEventListener("click", () => {
-      startEditItem(div, i, text);
+    // Populate the inline date select
+    const dateSelect = div.querySelector(".plan-date-edit");
+    buildDateOptions(dateSelect, item.date);
+
+    // Save when date changes
+    dateSelect.addEventListener("change", () => {
+      const current = loadAllActivities();
+      if (current[globalIndex]) {
+        current[globalIndex].date = dateSelect.value;
+        current[globalIndex].weatherCondition = getCategoryForDate(dateSelect.value);
+        saveAllActivities(current);
+      }
     });
 
+    // Prevent checkbox toggle when clicking the select
+    dateSelect.addEventListener("click", (e) => e.stopPropagation());
+
     div.querySelector(".plan-action-btn.delete").addEventListener("click", () => {
-      const all = loadTodayItems();
-      all.splice(i, 1);
-      saveTodayItems(all);
+      const current = loadAllActivities();
+      current.splice(globalIndex, 1);
+      saveAllActivities(current);
       renderPlanList();
     });
 
@@ -94,72 +185,71 @@ function renderPlanList() {
   });
 }
 
-function startEditItem(div, index, currentText) {
-  const titleSpan  = div.querySelector(".plan-title");
-  const actionsDiv = div.querySelector(".plan-item-actions");
-  const labelEl    = div.querySelector(".plan-label");
+/* -------------------------------------------------------
+   Add Activity Modal (index page)
+   Date is taken from plannerDateSelect dropdown
+------------------------------------------------------- */
 
-  labelEl.style.pointerEvents = "none";
-  actionsDiv.style.opacity = "0";
-  actionsDiv.style.pointerEvents = "none";
+function initIndexModal() {
+  const modal      = document.getElementById("indexActivityModal");
+  const openBtn    = document.getElementById("indexOpenModalBtn");
+  const cancelBtn  = document.getElementById("indexCancelModalBtn");
+  const confirmBtn = document.getElementById("indexConfirmModalBtn");
+  const nameInput  = document.getElementById("indexModalActivityName");
+  const descInput  = document.getElementById("indexModalActivityDesc");
+  const nameError  = document.getElementById("indexModalNameError");
+  if (!modal) return;
 
-  const input = document.createElement("input");
-  input.type      = "text";
-  input.className = "plan-edit-input";
-  input.value     = currentText;
-  titleSpan.replaceWith(input);
-  input.focus();
-  input.select();
-
-  function saveEdit() {
-    const newText = input.value.trim();
-    if (newText) {
-      const all = loadTodayItems();
-      all[index] = newText;
-      saveTodayItems(all);
-    }
-    renderPlanList();
+  function openModal() {
+    nameInput.value       = "";
+    descInput.value       = "";
+    nameError.textContent = "";
+    nameInput.classList.remove("error");
+    modal.classList.remove("hidden");
+    nameInput.focus();
   }
 
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter")  { e.preventDefault(); saveEdit(); }
-    if (e.key === "Escape") { renderPlanList(); }
-  });
-  input.addEventListener("blur", saveEdit);
-}
+  function closeModal() {
+    modal.classList.add("hidden");
+    if (openBtn) openBtn.focus();
+  }
 
-function addPlanItem(text) {
-  const trimmed = text.trim();
-  if (!trimmed) return false;
-  const items = loadTodayItems();
-  items.push(trimmed);
-  saveTodayItems(items);
-  renderPlanList();
-  return true;
-}
-
-function initTodayPlan() {
-  const input  = document.getElementById("todayPlanInput");
-  const addBtn = document.getElementById("addPlanBtn");
-  if (!input) return;
-
-  renderPlanList();
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (addPlanItem(input.value)) input.value = "";
+  function confirmAdd() {
+    const name = nameInput.value.trim();
+    if (!name) {
+      nameError.textContent = "Please enter an activity name.";
+      nameInput.classList.add("error");
+      nameInput.focus();
+      return;
     }
-  });
-
-  if (addBtn) {
-    addBtn.addEventListener("click", () => {
-      if (addPlanItem(input.value)) {
-        input.value = "";
-        input.focus();
-      }
+    const date     = getSelectedDate();
+    const category = getCategoryForDate(date);
+    const city     = getCityName();
+    const all      = loadAllActivities();
+    all.push({
+      city, date,
+      activity:         name,
+      description:      descInput.value.trim(),
+      weatherCondition: category,
+      savedAt:          new Date().toISOString()
     });
+    saveAllActivities(all);
+    showToast(`"${name}" added!`);
+    renderPlanList();
+    closeModal();
   }
+
+  if (openBtn) openBtn.addEventListener("click", openModal);
+  cancelBtn.addEventListener("click", closeModal);
+  confirmBtn.addEventListener("click", confirmAdd);
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+  });
+  nameInput.addEventListener("input", () => {
+    nameError.textContent = "";
+    nameInput.classList.remove("error");
+  });
 }
 
 /* -------------------------------------------------------
@@ -208,28 +298,52 @@ async function renderPlannerSuggestions(forecast, unit) {
     btn.className = "suggestion-item";
     btn.setAttribute("role", "listitem");
     btn.setAttribute("aria-label", `Add ${activity.name} to plan`);
+    btn.dataset.name = activity.name;
     btn.innerHTML = `
       <span class="suggestion-circle" aria-hidden="true"></span>
       <span class="suggestion-text">${activity.name}</span>
     `;
 
     btn.addEventListener("click", () => {
-      if (btn.classList.contains("is-added")) {
-        const all      = loadTodayItems();
-        const filtered = all.filter(t => t !== activity.name);
-        saveTodayItems(filtered);
-        renderPlanList();
+      const date     = getSelectedDate();
+      const cat      = getCategoryForDate(date);
+      const city     = getCityName();
+      const all      = loadAllActivities();
+      all.push({ city, date, activity: activity.name, description: activity.description || "", weatherCondition: cat, savedAt: new Date().toISOString() });
+      saveAllActivities(all);
+      showToast(`"${activity.name}" added!`);
+      renderPlanList();
+
+      btn.classList.add("is-added");
+      btn.setAttribute("aria-label", `Added: ${activity.name}`);
+      setTimeout(() => {
         btn.classList.remove("is-added");
         btn.setAttribute("aria-label", `Add ${activity.name} to plan`);
-      } else {
-        addPlanItem(activity.name);
-        btn.classList.add("is-added");
-        btn.setAttribute("aria-label", `Remove ${activity.name} from plan`);
-      }
+      }, 1500);
     });
 
     container.appendChild(btn);
   });
+}
+
+/* -------------------------------------------------------
+   Toast
+------------------------------------------------------- */
+
+function showToast(message) {
+  const existing = document.getElementById("toast");
+  if (existing) existing.remove();
+  const toast = document.createElement("div");
+  toast.id          = "toast";
+  toast.className   = "toast fade-in";
+  toast.textContent = message;
+  toast.setAttribute("role", "status");
+  toast.setAttribute("aria-live", "polite");
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add("toast-hide");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
 }
 
 /* -------------------------------------------------------
@@ -246,8 +360,11 @@ async function runSearch(city) {
     const forecast = await fetchForecast(place.lat, place.lon, unit);
     renderAll({ place, forecast, unitSymbol: unitSymbol(unit) });
     renderWeatherWarning(forecast, unit);
-    await renderPlannerSuggestions(forecast, unit);
     saveForecastBundle({ place, forecast, unit, savedAt: new Date().toISOString() });
+    const today = forecast.daily?.time?.[0] || new Date().toISOString().slice(0, 10);
+    buildDateOptions(document.getElementById("plannerDateSelect"), today);
+    await renderPlannerSuggestions(forecast, unit);
+    renderPlanList();
   } catch (err) {
     console.error(err);
     setStatus("Error fetching weather.");
@@ -325,7 +442,10 @@ async function initAutoLoad() {
     unitSymbol: unitSymbol(bundle.unit || getUnit())
   });
   renderWeatherWarning(bundle.forecast, bundle.unit || getUnit());
+  const today = bundle.forecast.daily?.time?.[0] || new Date().toISOString().slice(0, 10);
+  buildDateOptions(document.getElementById("plannerDateSelect"), today);
   await renderPlannerSuggestions(bundle.forecast, bundle.unit || getUnit());
+  renderPlanList();
 }
 
 /* -------------------------------------------------------
@@ -345,8 +465,11 @@ function initDefaultLocation() {
         const place = { name: "Current Location", country: "", lat: latitude, lon: longitude };
         renderAll({ place, forecast, unitSymbol: unitSymbol(unit) });
         renderWeatherWarning(forecast, unit);
-        await renderPlannerSuggestions(forecast, unit);
         saveForecastBundle({ place, forecast, unit, savedAt: new Date().toISOString() });
+        const today = forecast.daily?.time?.[0] || new Date().toISOString().slice(0, 10);
+        buildDateOptions(document.getElementById("plannerDateSelect"), today);
+        await renderPlannerSuggestions(forecast, unit);
+        renderPlanList();
       } catch (err) {
         console.error(err);
         runSearch("Seattle");
@@ -365,7 +488,7 @@ async function init() {
   initUnitDropdown();
   initForm();
   wireDailyClicks();
-  initTodayPlan();
+  initIndexModal();
   await initAutoLoad();
   initDefaultLocation();
 }

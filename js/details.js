@@ -30,43 +30,16 @@ function getConditionText(wmoCode) {
 
 function getWeatherIcon(wmoCode) {
   const c = Number(wmoCode);
-  if (c === 0) {
-    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="4"/>
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-    </svg>`;
-  }
-  if ([1,2,3].includes(c)) {
-    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
-    </svg>`;
-  }
-  if ([61,63,65,66,67,80,81,82,51,53,55,56,57].includes(c)) {
-    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="16" y1="13" x2="16" y2="21"/><line x1="8" y1="13" x2="8" y2="21"/>
-      <line x1="12" y1="15" x2="12" y2="23"/>
-      <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>
-    </svg>`;
-  }
-  if ([71,73,75,77,85,86].includes(c)) {
-    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/>
-      <line x1="8" y1="16" x2="8" y2="21"/><line x1="8" y1="21" x2="6" y2="19"/>
-      <line x1="8" y1="21" x2="10" y2="19"/><line x1="12" y1="16" x2="12" y2="21"/>
-      <line x1="12" y1="21" x2="10" y2="19"/><line x1="12" y1="21" x2="14" y2="19"/>
-      <line x1="16" y1="16" x2="16" y2="21"/><line x1="16" y1="21" x2="14" y2="19"/>
-      <line x1="16" y1="21" x2="18" y2="19"/>
-    </svg>`;
-  }
-  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
-  </svg>`;
+  if (c === 0) return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>`;
+  if ([1,2,3].includes(c)) return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`;
+  if ([61,63,65,66,67,80,81,82,51,53,55,56,57].includes(c)) return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="13" x2="16" y2="21"/><line x1="8" y1="13" x2="8" y2="21"/><line x1="12" y1="15" x2="12" y2="23"/><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/></svg>`;
+  if ([71,73,75,77,85,86].includes(c)) return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="16" x2="8" y2="21"/><line x1="8" y1="21" x2="6" y2="19"/><line x1="8" y1="21" x2="10" y2="19"/><line x1="12" y1="16" x2="12" y2="21"/><line x1="12" y1="21" x2="10" y2="19"/><line x1="12" y1="21" x2="14" y2="19"/><line x1="16" y1="16" x2="16" y2="21"/><line x1="16" y1="21" x2="14" y2="19"/><line x1="16" y1="21" x2="18" y2="19"/></svg>`;
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`;
 }
 
 function fmtTime(iso) {
   if (!iso) return "--";
-  const d = new Date(iso);
-  return d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+  return new Date(iso).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
 }
 
 function getDayDate() {
@@ -77,7 +50,6 @@ function getCityName() {
   return stored?.place?.name || "";
 }
 
-// Read/write helpers for selectedActivities in localStorage
 function loadAllActivities() {
   return JSON.parse(localStorage.getItem("selectedActivities") || "[]");
 }
@@ -86,44 +58,72 @@ function saveAllActivities(all) {
   localStorage.setItem("selectedActivities", JSON.stringify(all));
 }
 
-// Return a Set of activity names already added for this day and city
-function getAddedNames() {
-  const all = loadAllActivities();
-  return new Set(
-    all
-      .filter(a => a.date === getDayDate() && a.city === getCityName())
-      .map(a => a.activity)
-  );
+/* -------------------------------------------------------
+   Date dropdown — 7-day options
+------------------------------------------------------- */
+
+function buildDateOptions(selectEl, defaultDate) {
+  if (!selectEl) return;
+  selectEl.innerHTML = "";
+  const dates = stored?.forecast?.daily?.time || [];
+  if (dates.length === 0) {
+    const opt = document.createElement("option");
+    opt.value = defaultDate;
+    opt.textContent = new Date(defaultDate + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    selectEl.appendChild(opt);
+    return;
+  }
+  dates.forEach(dateStr => {
+    const opt = document.createElement("option");
+    opt.value = dateStr;
+    opt.textContent = new Date(dateStr + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    if (dateStr === defaultDate) opt.selected = true;
+    selectEl.appendChild(opt);
+  });
 }
 
-// Add an activity to localStorage
-function addActivity(activity, category) {
+function getSelectedSuggestionDate() {
+  return document.getElementById("detailsDateSelect")?.value || getDayDate();
+}
+
+/* -------------------------------------------------------
+   Category helper for a given date
+------------------------------------------------------- */
+
+function getCategoryForDate(dateStr) {
+  const dates = stored?.forecast?.daily?.time || [];
+  const codes = stored?.forecast?.daily?.weather_code || [];
+  const lows  = stored?.forecast?.daily?.temperature_2m_min || [];
+  const unit  = stored?.unit || "fahrenheit";
+  const idx   = dates.indexOf(dateStr);
+  const wmo   = idx >= 0 ? (codes[idx] ?? 0) : 0;
+  const low   = idx >= 0 ? (lows[idx]  ?? 20) : 20;
+  const tempC = unit === "celsius" ? low : (low - 32) * 5 / 9;
+  return getCategory(wmo, tempC);
+}
+
+/* -------------------------------------------------------
+   Add activity
+------------------------------------------------------- */
+
+function addActivity(activity, category, date) {
   const all = loadAllActivities();
   all.push({
-    city: getCityName(),
-    date: getDayDate(),
-    activity: activity.name,
-    description: activity.description || "",
+    city:             getCityName(),
+    date:             date || getDayDate(),
+    activity:         activity.name,
+    description:      activity.description || "",
     weatherCondition: category,
-    savedAt: new Date().toISOString()
+    savedAt:          new Date().toISOString()
   });
   saveAllActivities(all);
   showToast(`"${activity.name}" added to your plan!`);
   renderPlanList();
 }
 
-// Remove all entries matching this activity name, date, and city
-function removeActivity(activityName) {
-  const all     = loadAllActivities();
-  const dayDate = getDayDate();
-  const city    = getCityName();
-  const filtered = all.filter(
-    a => !(a.activity === activityName && a.date === dayDate && a.city === city)
-  );
-  saveAllActivities(filtered);
-  showToast(`"${activityName}" removed from your plan.`);
-  renderPlanList();
-}
+/* -------------------------------------------------------
+   Weather details
+------------------------------------------------------- */
 
 function populateWeatherDetails() {
   if (!stored || !stored.forecast) {
@@ -132,16 +132,16 @@ function populateWeatherDetails() {
     return null;
   }
 
-  const forecast   = stored.forecast;
-  const unit       = stored.unit || "fahrenheit";
-  const unitSymbol = unit === "celsius" ? "°C" : "°F";
+  const forecast = stored.forecast;
+  const unit     = stored.unit || "fahrenheit";
+  const unitSym  = unit === "celsius" ? "°C" : "°F";
 
-  const dates    = forecast.daily?.time                || [];
-  const highs    = forecast.daily?.temperature_2m_max  || [];
-  const lows     = forecast.daily?.temperature_2m_min  || [];
-  const codes    = forecast.daily?.weather_code        || [];
-  const sunrises = forecast.daily?.sunrise             || [];
-  const sunsets  = forecast.daily?.sunset              || [];
+  const dates    = forecast.daily?.time || [];
+  const highs    = forecast.daily?.temperature_2m_max || [];
+  const lows     = forecast.daily?.temperature_2m_min || [];
+  const codes    = forecast.daily?.weather_code || [];
+  const sunrises = forecast.daily?.sunrise || [];
+  const sunsets  = forecast.daily?.sunset || [];
 
   const hourlyTimes    = forecast.hourly?.time || [];
   const dayDateStr     = dates[dayIndex] || "";
@@ -159,10 +159,10 @@ function populateWeatherDetails() {
   const dateObj = dayDateStr ? new Date(dayDateStr + "T12:00:00") : new Date();
   const dateStr = dateObj.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
 
-  document.getElementById("dayTemp").textContent          = avgTemp !== "--" ? `${avgTemp}${unitSymbol}` : "--";
+  document.getElementById("dayTemp").textContent          = avgTemp !== "--" ? `${avgTemp}${unitSym}` : "--";
   document.getElementById("dayCondition").textContent     = getConditionText(wmoCode);
-  document.getElementById("dayHigh").textContent          = tempHigh !== "--" ? `${tempHigh}${unitSymbol}` : "--";
-  document.getElementById("dayLow").textContent           = tempLow  !== "--" ? `${tempLow}${unitSymbol}`  : "--";
+  document.getElementById("dayHigh").textContent          = tempHigh !== "--" ? `${tempHigh}${unitSym}` : "--";
+  document.getElementById("dayLow").textContent           = tempLow  !== "--" ? `${tempLow}${unitSym}`  : "--";
   document.getElementById("dayHumidity").textContent      = humidity != null ? `${Math.round(humidity)}%` : "--";
   document.getElementById("dayWind").textContent          = wind     != null ? `${Math.round(wind)} mph`  : "--";
   document.getElementById("dayIcon").innerHTML            = getWeatherIcon(wmoCode);
@@ -184,9 +184,16 @@ async function fetchActivities() {
   return res.json();
 }
 
-function renderSuggestions(activitiesData, category, filter) {
+/* -------------------------------------------------------
+   Suggestions — date dropdown above, click = instant add
+------------------------------------------------------- */
+
+function renderSuggestions(activitiesData, baseCategory, filter) {
   const container = document.getElementById("suggestionList");
   container.innerHTML = "";
+
+  const selectedDate = getSelectedSuggestionDate();
+  const category     = getCategoryForDate(selectedDate) || baseCategory;
 
   const categoryData = activitiesData[category] || activitiesData["cloudy"];
 
@@ -199,17 +206,17 @@ function renderSuggestions(activitiesData, category, filter) {
     items = (categoryData[filter] || []).map(a => ({ ...a, type: filter }));
   }
 
-  const addedNames = getAddedNames();
+  if (items.length === 0) {
+    container.innerHTML = `<p class="plan-empty">No activities found for this filter.</p>`;
+    return;
+  }
 
   items.slice(0, 5).forEach(activity => {
-    const isAdded = addedNames.has(activity.name);
-
     const btn = document.createElement("button");
-    btn.className = "suggestion-item" + (isAdded ? " is-added" : "");
+    btn.className = "suggestion-item";
     btn.setAttribute("role", "listitem");
-    btn.setAttribute("aria-label", `${isAdded ? "Remove" : "Add"}: ${activity.name}`);
+    btn.setAttribute("aria-label", `Add: ${activity.name}`);
     btn.dataset.name = activity.name;
-
     btn.innerHTML = `
       <span class="suggestion-circle" aria-hidden="true"></span>
       <div class="suggestion-text-block">
@@ -219,26 +226,19 @@ function renderSuggestions(activitiesData, category, filter) {
     `;
 
     btn.addEventListener("click", () => {
-      const added = btn.classList.contains("is-added");
-      if (added) {
-        // Remove from plan
-        removeActivity(activity.name);
+      const date = getSelectedSuggestionDate();
+      const cat  = getCategoryForDate(date) || baseCategory;
+      addActivity(activity, cat, date);
+      btn.classList.add("is-added");
+      btn.setAttribute("aria-label", `Added: ${activity.name}`);
+      setTimeout(() => {
         btn.classList.remove("is-added");
         btn.setAttribute("aria-label", `Add: ${activity.name}`);
-      } else {
-        // Add to plan
-        addActivity(activity, category);
-        btn.classList.add("is-added");
-        btn.setAttribute("aria-label", `Remove: ${activity.name}`);
-      }
+      }, 1500);
     });
 
     container.appendChild(btn);
   });
-
-  if (items.length === 0) {
-    container.innerHTML = `<p class="plan-empty">No activities found for this filter.</p>`;
-  }
 
   const subtitle = document.getElementById("suggestionSubtitle");
   if (subtitle) {
@@ -247,38 +247,78 @@ function renderSuggestions(activitiesData, category, filter) {
   }
 }
 
-function startEditDetailsItem(div, allActivities, globalIndex, currentText) {
-  const titleSpan  = div.querySelector(".plan-title");
-  const actionsDiv = div.querySelector(".plan-item-actions");
-  const labelEl    = div.querySelector(".plan-label");
+/* -------------------------------------------------------
+   Inline edit for plan list items (name + description)
+------------------------------------------------------- */
 
-  labelEl.style.pointerEvents = "none";
-  actionsDiv.style.opacity = "0";
+function startEditDetailsItem(li, all, globalIndex, currentName, currentDesc) {
+  const actionsDiv = li.querySelector(".plan-item-actions");
+  const checkbox   = li.querySelector(".plan-checkbox");
+  const labelEl    = li.querySelector(".plan-label");
+
+  labelEl.style.display          = "none";
+  actionsDiv.style.opacity       = "0";
   actionsDiv.style.pointerEvents = "none";
+  if (checkbox) checkbox.style.display = "none";
 
-  const input = document.createElement("input");
-  input.type      = "text";
-  input.className = "plan-edit-input";
-  input.value     = currentText;
-  titleSpan.replaceWith(input);
-  input.focus();
-  input.select();
+  const editRow = document.createElement("div");
+  editRow.className = "plan-edit-row";
+
+  const nameInput = document.createElement("input");
+  nameInput.type      = "text";
+  nameInput.className = "plan-edit-input";
+  nameInput.value     = currentName;
+  nameInput.maxLength = 80;
+  nameInput.setAttribute("aria-label", "Edit activity name");
+
+  const descInput = document.createElement("input");
+  descInput.type        = "text";
+  descInput.className   = "plan-edit-input desc-input";
+  descInput.value       = currentDesc || "";
+  descInput.maxLength   = 120;
+  descInput.placeholder = "Description (optional)";
+  descInput.setAttribute("aria-label", "Edit activity description");
+
+  editRow.appendChild(nameInput);
+  editRow.appendChild(descInput);
+  li.insertBefore(editRow, actionsDiv);
+  nameInput.focus();
+  nameInput.select();
+
+  let saved = false;
 
   function saveEdit() {
-    const newText = input.value.trim();
-    if (newText) {
-      allActivities[globalIndex].activity = newText;
-      localStorage.setItem("selectedActivities", JSON.stringify(allActivities));
+    if (saved) return;
+    saved = true;
+    const newName = nameInput.value.trim();
+    const newDesc = descInput.value.trim();
+    if (newName && globalIndex >= 0 && globalIndex < all.length) {
+      all[globalIndex].activity    = newName;
+      all[globalIndex].description = newDesc;
+      localStorage.setItem("selectedActivities", JSON.stringify(all));
     }
     renderPlanList();
   }
 
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter")  { e.preventDefault(); saveEdit(); }
-    if (e.key === "Escape") { renderPlanList(); }
+  nameInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter")  { e.preventDefault(); descInput.focus(); }
+    if (e.key === "Escape") { saved = true; renderPlanList(); }
   });
-  input.addEventListener("blur", saveEdit);
+  descInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter")  { e.preventDefault(); saveEdit(); }
+    if (e.key === "Escape") { saved = true; renderPlanList(); }
+  });
+  descInput.addEventListener("blur", () => {
+    setTimeout(() => { if (!li.contains(document.activeElement)) saveEdit(); }, 100);
+  });
+  nameInput.addEventListener("blur", () => {
+    setTimeout(() => { if (!li.contains(document.activeElement)) saveEdit(); }, 100);
+  });
 }
+
+/* -------------------------------------------------------
+   Plan list — activities for the currently viewed day
+------------------------------------------------------- */
 
 function renderPlanList() {
   const container     = document.getElementById("dayPlanList");
@@ -288,6 +328,12 @@ function renderPlanList() {
   const dayActivities = all.filter(a => a.date === dayDate && a.city === city);
 
   container.innerHTML = "";
+
+  if (dayActivities.length >= 5) {
+    container.classList.add("plan-list-scroll");
+  } else {
+    container.classList.remove("plan-list-scroll");
+  }
 
   if (dayActivities.length === 0) {
     container.innerHTML = `
@@ -307,37 +353,33 @@ function renderPlanList() {
     const li = document.createElement("div");
     li.className = "plan-item fade-in";
     li.setAttribute("role", "listitem");
+
+    const descHtml = item.description
+      ? `<span class="plan-desc">${item.description}</span>`
+      : "";
+
     li.innerHTML = `
       <input type="checkbox" class="plan-checkbox" id="${id}" aria-describedby="${id}-title">
       <label class="plan-label" for="${id}">
         <div class="plan-info">
           <span class="plan-title" id="${id}-title">${item.activity}</span>
-          <div class="plan-details">
-            <span class="plan-location">${item.city}</span>
-            <span class="plan-time">${item.weatherCondition}</span>
-          </div>
+          ${descHtml}
         </div>
       </label>
       <div class="plan-item-actions">
-        <button class="plan-action-btn edit" aria-label="Edit ${item.activity}" title="Edit">Edit</button>
         <button class="plan-action-btn delete" aria-label="Delete ${item.activity}" title="Delete">&#x2715;</button>
       </div>
     `;
 
-    li.querySelector(".plan-action-btn.edit").addEventListener("click", () => {
-      startEditDetailsItem(li, all, globalIndex, item.activity);
+    li.querySelector(".plan-label").addEventListener("click", (e) => {
+      if (e.target.tagName === "INPUT") return;
+      e.preventDefault();
+      startEditDetailsItem(li, all, globalIndex, item.activity, item.description || "");
     });
 
     li.querySelector(".plan-action-btn.delete").addEventListener("click", () => {
       all.splice(globalIndex, 1);
       localStorage.setItem("selectedActivities", JSON.stringify(all));
-      // Re-sync suggestion circles
-      document.querySelectorAll(".suggestion-item").forEach(btn => {
-        if (btn.dataset.name === item.activity) {
-          btn.classList.remove("is-added");
-          btn.setAttribute("aria-label", `Add: ${item.activity}`);
-        }
-      });
       renderPlanList();
     });
 
@@ -345,10 +387,13 @@ function renderPlanList() {
   });
 }
 
+/* -------------------------------------------------------
+   Toast
+------------------------------------------------------- */
+
 function showToast(message) {
   const existing = document.getElementById("toast");
   if (existing) existing.remove();
-
   const toast = document.createElement("div");
   toast.id          = "toast";
   toast.className   = "toast fade-in";
@@ -356,7 +401,6 @@ function showToast(message) {
   toast.setAttribute("role", "status");
   toast.setAttribute("aria-live", "polite");
   document.body.appendChild(toast);
-
   setTimeout(() => {
     toast.classList.add("toast-hide");
     setTimeout(() => toast.remove(), 300);
@@ -378,6 +422,11 @@ function populateActivityCard(category) {
   if (descEl)     descEl.textContent     = `Here are some great activities for ${category} weather in ${cityName}. Select one to add it to your plan!`;
 }
 
+/* -------------------------------------------------------
+   Modal — "+ Add Activity" button
+   Includes date dropdown defaulting to currently viewed day
+------------------------------------------------------- */
+
 function initModal(category) {
   const modal      = document.getElementById("activityModal");
   const openBtn    = document.getElementById("openModalBtn");
@@ -385,6 +434,7 @@ function initModal(category) {
   const confirmBtn = document.getElementById("confirmModalBtn");
   const nameInput  = document.getElementById("modalActivityName");
   const descInput  = document.getElementById("modalActivityDesc");
+  const dateSelect = document.getElementById("modalActivityDate");
   const nameError  = document.getElementById("modalNameError");
 
   function openModal() {
@@ -392,6 +442,8 @@ function initModal(category) {
     descInput.value       = "";
     nameError.textContent = "";
     nameInput.classList.remove("error");
+    // Default to the currently viewed day
+    buildDateOptions(dateSelect, getDayDate() || new Date().toISOString().slice(0, 10));
     modal.classList.remove("hidden");
     nameInput.focus();
   }
@@ -409,10 +461,13 @@ function initModal(category) {
       nameInput.focus();
       return;
     }
-    addActivity({
-      name,
-      description: descInput.value.trim() || `A custom activity for ${category} weather.`
-    }, category);
+    const selectedDate = dateSelect.value || getDayDate();
+    const cat          = getCategoryForDate(selectedDate) || category;
+    addActivity(
+      { name, description: descInput.value.trim() || `A custom activity for ${cat} weather.` },
+      cat,
+      selectedDate
+    );
     closeModal();
   }
 
@@ -429,6 +484,10 @@ function initModal(category) {
   });
 }
 
+/* -------------------------------------------------------
+   Init
+------------------------------------------------------- */
+
 async function init() {
   const weatherInfo = populateWeatherDetails();
 
@@ -438,6 +497,11 @@ async function init() {
   }
 
   populateActivityCard(category);
+
+  // Date dropdown defaults to the currently viewed day
+  const currentDayDate = getDayDate() || new Date().toISOString().slice(0, 10);
+  buildDateOptions(document.getElementById("detailsDateSelect"), currentDayDate);
+
   renderPlanList();
   initModal(category);
 
@@ -453,12 +517,14 @@ async function init() {
 
   renderSuggestions(activitiesData, category, "all");
 
-  const filterSelect = document.getElementById("activityFilter");
-  if (filterSelect) {
-    filterSelect.addEventListener("change", () => {
-      renderSuggestions(activitiesData, category, filterSelect.value);
-    });
-  }
+  document.getElementById("detailsDateSelect")?.addEventListener("change", () => {
+    const filter = document.getElementById("activityFilter")?.value || "all";
+    renderSuggestions(activitiesData, category, filter);
+  });
+
+  document.getElementById("activityFilter")?.addEventListener("change", (e) => {
+    renderSuggestions(activitiesData, category, e.target.value);
+  });
 }
 
 init();
