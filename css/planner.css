@@ -1,17 +1,16 @@
 /* Planner Panel Base */
 .planner-panel {
-  display: none;
+  display: grid;
+  gap: 1rem;
+  align-self: start;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 22px;
+  padding: 1.25rem;
 }
 
 @media (min-width: 900px) {
   .planner-panel {
-    display: grid;
-    gap: 1rem;
-    align-self: start;
-    background: rgba(255, 255, 255, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.65);
-    border-radius: 22px;
-    padding: 1.25rem;
     min-height: 520px;
   }
 
@@ -219,6 +218,16 @@
 
 /* Mobile */
 @media (max-width: 899px) {
+  .planner-panel {
+    display: grid;
+    margin-top: 1rem;
+    order: 99;
+  }
+
+  .planner-mobile {
+    display: none;
+  }
+
   .planner-mobile .planner-box {
     background: transparent;
     border: none;
