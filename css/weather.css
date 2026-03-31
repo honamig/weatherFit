@@ -3,14 +3,18 @@
 ====================== */
 
 .weather-panel{
-  background: var(--panel);
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255,255,255,0.6);
   border-radius: 28px;
   padding: 1.5rem;
   display:grid;
   gap: 1.25rem;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
+  overflow: visible;
+  box-shadow: 0 16px 36px rgba(120, 90, 70, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .weather-panel > *{
@@ -79,6 +83,43 @@
   display:grid;
   gap: 0.25rem;
   cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.week-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(120, 90, 70, 0.15);
+}
+
+.week-card:active{
+  transform: scale(0.96);
+}
+
+.week-card::after{
+  content: "View details";
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  transform: translateX(-50%);
+  padding: 0.22rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  color: #5f5148;
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(226, 211, 201, 0.95);
+  border-radius: 999px;
+  box-shadow: 0 6px 14px rgba(120, 90, 70, 0.10);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.week-card:hover::after{
+  opacity: 1;
+  transform: translateX(-50%) translateY(2px);
 }
 
 .week-card:focus-visible{
@@ -101,7 +142,14 @@
 }
 
 .week-icon img{
-  display:block;
+  width:100%;
+  height:100%;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+}
+
+.week-card:hover .week-icon{
+  transform: scale(1.15);
+  transition: transform 0.2s ease;
 }
 
 .week-hi,
@@ -119,7 +167,6 @@
   color: var(--muted);
   font-weight:800;
 }
-
 
 /* ======================
    CURRENT WEATHER CARD
@@ -210,6 +257,10 @@
   color: #0b3a5b;
   white-space: nowrap;
 }
+.stat img{
+  width: 40px;
+  height: 40px;
+}
 
 
 /* ======================
@@ -239,7 +290,10 @@
 .sun-text strong{
   white-space: nowrap;
 }
-
+.sun-item img{
+  width: 50px;
+  height: 50px;
+}
 
 /* ======================
    HOURLY FORECAST
@@ -252,20 +306,28 @@
 }
 
 .hour-card{
-  background:#F4E7DB;
-  border-radius: 16px;
-  padding: 0.75rem;
+  background:#f8efe9;
+  border:1px solid #f0dfd4;
+  border-radius:16px;
+  padding:0.5rem 0.4rem;
   display:grid;
   justify-items:center;
-  gap: 0.35rem;
+  gap:0.2rem;
   text-align:center;
+  box-shadow:0 6px 14px rgba(120, 90, 70, 0.05);
 }
+
+
 
 .hour,
 .hour-temp{
   white-space: nowrap;
 }
-
+.hour-card img{
+  width: 50px;
+  height: 50px;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+}
 
 /* ======================
    PLANNER SIDEBAR

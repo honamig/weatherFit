@@ -1,74 +1,96 @@
 /* css/global.css */
 /* Global variables + base rules */
 :root{
-    --bg-main:#EED4C2;
-    --panel:#E7CDBB;
-    --card:#FFFFFF;
-    --stroke:#E5E5E5;
-    --text:#111111;
-    --muted:#555555;
-    --focus:#2563eb;
-  }
-  
-  *,
-  *::before,
-  *::after{ box-sizing:border-box; }
-  
-  body{
-    margin:0;
-    font-family:"Inter", system-ui, sans-serif;
-    background:var(--bg-main);
-    color:var(--text);
-  }
-  
-  .page{
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1.25rem;
-    padding-bottom: 2rem;
-  }
-  
+  --bg-main:#EED4C2;
+  --panel:#E7CDBB;
+  --card:#FFFFFF;
+  --stroke:#E5E5E5;
+  --text:#111111;
+  --muted:#555555;
+  --focus:#2563eb;
+}
+
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  min-height:100%;
+}
+
+body{
+  font-family:"Inter", system-ui, sans-serif;
+  color:var(--text);
+  background: linear-gradient(to bottom, #f6e6dc, #f3ddd3, #f8ece6);
+  position:relative;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+
+  background:
+    url("../img/background.jpg") 15% 0% / cover no-repeat;
+}
+
+.page{
+  max-width:1200px;
+  margin:0 auto;
+  padding:1.25rem;
+  padding-bottom:2rem;
+}
+
+.layout{
+  display:block;
+}
+
+@media (min-width: 900px){
   .layout{
-    display:block;
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:1.5rem;
+    align-items:start;
   }
-  
-  @media (min-width: 900px){
-    .layout{
-      display:grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 1.5rem;
-      align-items:start;
-    }
-  }
-  
-  :focus-visible{
-    outline:3px solid var(--focus);
-    outline-offset:3px;
-  }
-  
-  .skip-link{
-    position:absolute;
-    left:-999px;
-    top:10px;
-    background:#111;
-    color:#fff;
-    padding:0.5rem 0.75rem;
-    border-radius:10px;
-    z-index:1000;
-  }
-  .skip-link:focus{ left:10px; }
-  
-  .sr-only{
-    position:absolute !important;
-    width:1px;
-    height:1px;
-    overflow:hidden;
-    clip:rect(1px, 1px, 1px, 1px);
-    white-space:nowrap;
-  }
-  
-  .app-footer{
-    text-align:center;
-    padding: 1rem;
-    color: var(--muted);
-  }
+}
+
+:focus-visible{
+  outline:3px solid var(--focus);
+  outline-offset:3px;
+}
+
+.skip-link{
+  position:absolute;
+  left:-999px;
+  top:10px;
+  background:#111;
+  color:#fff;
+  padding:0.5rem 0.75rem;
+  border-radius:10px;
+  z-index:1000;
+}
+
+.skip-link:focus{
+  left:10px;
+}
+
+.sr-only{
+  position:absolute !important;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip:rect(1px, 1px, 1px, 1px);
+  white-space:nowrap;
+}
+
+.app-footer{
+  text-align:center;
+  padding:1rem;
+  color:var(--muted);
+}
