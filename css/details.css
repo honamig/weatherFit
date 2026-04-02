@@ -1,3 +1,18 @@
+.modal-overlay {
+  position: fixed !important;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+  padding: 1rem;
+}
+
+.modal-overlay.hidden {
+  display: none !important;
+}
+
 /* Header */
 .details-header {
   max-width: 1200px;
@@ -80,7 +95,6 @@
     grid-column: 1 / -1;
   }
 
-  /* Scrollable plan list on desktop when 5+ items */
   .plan-list-scroll {
     max-height: 320px;
     overflow-y: auto;
@@ -283,7 +297,7 @@
   border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-/* ── Plan item with description ── */
+/* Plan item */
 .plan-item {
   display: flex;
   align-items: flex-start;
@@ -329,7 +343,6 @@
   font-size: 0.95rem;
 }
 
-/* Description shown in plan list */
 .plan-desc {
   font-size: 0.82rem;
   color: var(--muted);
@@ -337,7 +350,6 @@
   word-break: break-word;
 }
 
-/* Inline edit inputs for name + description */
 .plan-edit-row {
   display: grid;
   gap: 0.4rem;
@@ -370,7 +382,6 @@
   border-color: var(--focus);
 }
 
-/* Plan item actions */
 .plan-item-actions {
   display: flex;
   gap: 0.35rem;
@@ -406,7 +417,6 @@
   color: #dc2626;
 }
 
-/* Checked state */
 .plan-checkbox:checked + .plan-label .plan-title {
   text-decoration: line-through;
   opacity: 0.6;
@@ -416,7 +426,7 @@
   opacity: 0.4;
 }
 
-/* Suggestions — text left-aligned */
+/* Suggestions */
 .suggestion-item {
   text-align: left;
 }
@@ -429,7 +439,6 @@
   text-align: left;
 }
 
-/* ── Circle toggle (○ / ●) ── */
 .suggestion-circle {
   flex-shrink: 0;
   width: 22px;
@@ -450,22 +459,7 @@
   opacity: 0.55;
 }
 
-/* ── Modal overlay ── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 1rem;
-}
-
-.modal-overlay.hidden {
-  display: none;
-}
-
+/* Modal box */
 .modal-box {
   background: var(--card);
   border-radius: 22px;
@@ -518,7 +512,6 @@
   border-color: #e24b4a;
 }
 
-/* Date select inside modal */
 select.modal-input,
 select.modal-select {
   appearance: none;
@@ -582,7 +575,7 @@ select.modal-select {
   transform: translateY(0);
 }
 
-/* ── Full-width Add Activity button (details page) ── */
+/* Full-width Add Activity button */
 .btn-add-activity-full {
   width: 100%;
   padding: 0.95rem 1rem;
@@ -616,7 +609,7 @@ select.modal-select {
   outline-offset: 3px;
 }
 
-/* Responsive Adjustments */
+/* Responsive */
 @media (max-width: 480px) {
   .activity-info-grid,
   .day-details-grid {
@@ -651,7 +644,7 @@ select.modal-select {
   }
 }
 
-/* ── Inline add form (details page) ── */
+/* Inline add form */
 .inline-add-form {
   display: grid;
   gap: 0.5rem;
@@ -726,4 +719,54 @@ select.modal-select {
 
 .btn-inline-confirm:active {
   transform: translateY(0);
+}
+
+/* Filter row */
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.filter-select {
+  padding: 0.55rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.2rem;
+}
+
+.filter-select:hover {
+  border-color: rgba(0,0,0,.25);
+}
+
+/* Suggestions card */
+.suggestions-card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 1.5rem;
+  border: 1px solid rgba(0,0,0,.04);
+}
+
+@media (min-width: 900px) {
+  .suggestions-card {
+    grid-column: 1 / -1;
+  }
 }

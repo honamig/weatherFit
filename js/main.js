@@ -1,4 +1,3 @@
-// js/main.js
 'use strict';
 
 import { geocodeCity, fetchForecast } from "./api.js";
@@ -8,10 +7,6 @@ import {
   saveTodayPlan, loadTodayPlan
 } from "./storage.js";
 import { setStatus, setButtonLoading, renderAll, renderWeatherWarning } from "./ui.js";
-
-/* -------------------------------------------------------
-   Utility
-------------------------------------------------------- */
 
 function unitSymbol(unit) {
   return unit === "celsius" ? "°C" : "°F";
@@ -34,10 +29,6 @@ function getActivityCategory(wmoCode, tempValue, unit) {
   return "cloudy";
 }
 
-/* -------------------------------------------------------
-   Shared selectedActivities storage
-------------------------------------------------------- */
-
 const SELECTED_KEY = "selectedActivities";
 
 function loadAllActivities() {
@@ -52,10 +43,6 @@ function saveAllActivities(all) {
 function getCityName() {
   return loadForecastBundle()?.place?.name || "";
 }
-
-/* -------------------------------------------------------
-   Date dropdown helper
-------------------------------------------------------- */
 
 function buildDateOptions(selectEl, defaultDate) {
   if (!selectEl) return;
@@ -85,10 +72,6 @@ function getSelectedDate() {
   return document.getElementById("plannerDateSelect")?.value || new Date().toISOString().slice(0, 10);
 }
 
-/* -------------------------------------------------------
-   Category for a given date
-------------------------------------------------------- */
-
 function getCategoryForDate(dateStr) {
   const bundle = loadForecastBundle();
   const dates  = bundle?.forecast?.daily?.time || [];
@@ -100,11 +83,6 @@ function getCategoryForDate(dateStr) {
   const low    = idx >= 0 ? (lows[idx]  ?? 20) : 20;
   return getActivityCategory(wmo, low, unit);
 }
-
-/* -------------------------------------------------------
-   Plan list — shows all activities for current city
-   Description shown in dark grey; date is an inline editable select
-------------------------------------------------------- */
 
 function renderPlanList() {
   const container = document.getElementById("plannerPlanList");
@@ -157,11 +135,9 @@ function renderPlanList() {
       </div>
     `;
 
-    // Populate the inline date select
     const dateSelect = div.querySelector(".plan-date-edit");
     buildDateOptions(dateSelect, item.date);
 
-    // Save when date changes
     dateSelect.addEventListener("change", () => {
       const current = loadAllActivities();
       if (current[globalIndex]) {
@@ -171,7 +147,6 @@ function renderPlanList() {
       }
     });
 
-    // Prevent checkbox toggle when clicking the select
     dateSelect.addEventListener("click", (e) => e.stopPropagation());
 
     div.querySelector(".plan-action-btn.delete").addEventListener("click", () => {
@@ -185,40 +160,34 @@ function renderPlanList() {
   });
 }
 
-/* -------------------------------------------------------
-   Add Activity Modal (index page)
-   Date is taken from plannerDateSelect dropdown
-------------------------------------------------------- */
-
-function initIndexModal() {
-  const modal      = document.getElementById("indexActivityModal");
+/* Inline form shown inside the Plan card instead of a floating modal */
+function initIndexInlineForm() {
   const openBtn    = document.getElementById("indexOpenModalBtn");
-  const cancelBtn  = document.getElementById("indexCancelModalBtn");
-  const confirmBtn = document.getElementById("indexConfirmModalBtn");
-  const nameInput  = document.getElementById("indexModalActivityName");
-  const descInput  = document.getElementById("indexModalActivityDesc");
-  const nameError  = document.getElementById("indexModalNameError");
-  if (!modal) return;
+  const form       = document.getElementById("indexInlineForm");
+  const nameInput  = document.getElementById("indexInlineName");
+  const descInput  = document.getElementById("indexInlineDesc");
+  const cancelBtn  = document.getElementById("indexInlineCancel");
+  const confirmBtn = document.getElementById("indexInlineConfirm");
+  if (!openBtn || !form) return;
 
-  function openModal() {
-    nameInput.value       = "";
-    descInput.value       = "";
-    nameError.textContent = "";
-    nameInput.classList.remove("error");
-    modal.classList.remove("hidden");
+  function openForm() {
+    nameInput.value = "";
+    descInput.value = "";
+    nameInput.style.borderColor = "";
+    form.classList.remove("hidden");
+    openBtn.classList.add("hidden");
     nameInput.focus();
   }
 
-  function closeModal() {
-    modal.classList.add("hidden");
-    if (openBtn) openBtn.focus();
+  function closeForm() {
+    form.classList.add("hidden");
+    openBtn.classList.remove("hidden");
   }
 
   function confirmAdd() {
     const name = nameInput.value.trim();
     if (!name) {
-      nameError.textContent = "Please enter an activity name.";
-      nameInput.classList.add("error");
+      nameInput.style.borderColor = "#e24b4a";
       nameInput.focus();
       return;
     }
@@ -227,7 +196,8 @@ function initIndexModal() {
     const city     = getCityName();
     const all      = loadAllActivities();
     all.push({
-      city, date,
+      city,
+      date,
       activity:         name,
       description:      descInput.value.trim(),
       weatherCondition: category,
@@ -236,25 +206,24 @@ function initIndexModal() {
     saveAllActivities(all);
     showToast(`"${name}" added!`);
     renderPlanList();
-    closeModal();
+    closeForm();
   }
 
-  if (openBtn) openBtn.addEventListener("click", openModal);
-  cancelBtn.addEventListener("click", closeModal);
+  openBtn.addEventListener("click", openForm);
+  cancelBtn.addEventListener("click", closeForm);
   confirmBtn.addEventListener("click", confirmAdd);
-  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+
+  nameInput.addEventListener("input", () => { nameInput.style.borderColor = ""; });
+
+  nameInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter")  { e.preventDefault(); descInput.focus(); }
+    if (e.key === "Escape") closeForm();
   });
-  nameInput.addEventListener("input", () => {
-    nameError.textContent = "";
-    nameInput.classList.remove("error");
+  descInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter")  { e.preventDefault(); confirmAdd(); }
+    if (e.key === "Escape") closeForm();
   });
 }
-
-/* -------------------------------------------------------
-   Planner Suggestions
-------------------------------------------------------- */
 
 let _activitiesCache = null;
 
@@ -326,10 +295,6 @@ async function renderPlannerSuggestions(forecast, unit) {
   });
 }
 
-/* -------------------------------------------------------
-   Toast
-------------------------------------------------------- */
-
 function showToast(message) {
   const existing = document.getElementById("toast");
   if (existing) existing.remove();
@@ -345,10 +310,6 @@ function showToast(message) {
     setTimeout(() => toast.remove(), 300);
   }, 2500);
 }
-
-/* -------------------------------------------------------
-   Search
-------------------------------------------------------- */
 
 async function runSearch(city) {
   const unit = getUnit();
@@ -373,10 +334,6 @@ async function runSearch(city) {
   }
 }
 
-/* -------------------------------------------------------
-   Weekly Card Clicks
-------------------------------------------------------- */
-
 function wireDailyClicks() {
   const row = document.getElementById("weeklyRow");
   if (!row) return;
@@ -396,10 +353,6 @@ function wireDailyClicks() {
   });
 }
 
-/* -------------------------------------------------------
-   Unit Dropdown
-------------------------------------------------------- */
-
 function initUnitDropdown() {
   const select = document.getElementById("unitSelect");
   if (!select) return;
@@ -413,10 +366,6 @@ function initUnitDropdown() {
   });
 }
 
-/* -------------------------------------------------------
-   Search Form
-------------------------------------------------------- */
-
 function initForm() {
   const form  = document.getElementById("searchForm");
   const input = document.getElementById("searchCity");
@@ -428,10 +377,6 @@ function initForm() {
     await runSearch(input.value.trim());
   });
 }
-
-/* -------------------------------------------------------
-   Auto Load Saved Forecast
-------------------------------------------------------- */
 
 async function initAutoLoad() {
   const bundle = loadForecastBundle();
@@ -447,10 +392,6 @@ async function initAutoLoad() {
   await renderPlannerSuggestions(bundle.forecast, bundle.unit || getUnit());
   renderPlanList();
 }
-
-/* -------------------------------------------------------
-   Default Location (Geolocation)
-------------------------------------------------------- */
 
 function initDefaultLocation() {
   const existing = loadForecastBundle();
@@ -480,15 +421,11 @@ function initDefaultLocation() {
   );
 }
 
-/* -------------------------------------------------------
-   Init
-------------------------------------------------------- */
-
 async function init() {
   initUnitDropdown();
   initForm();
   wireDailyClicks();
-  initIndexModal();
+  initIndexInlineForm();
   await initAutoLoad();
   initDefaultLocation();
 }

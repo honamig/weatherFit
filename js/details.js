@@ -51,16 +51,16 @@ function getCityName() {
 }
 
 function loadAllActivities() {
-  return JSON.parse(localStorage.getItem("selectedActivities") || "[]");
+  try {
+    return JSON.parse(localStorage.getItem("selectedActivities") || "[]");
+  } catch {
+    return [];
+  }
 }
 
 function saveAllActivities(all) {
   localStorage.setItem("selectedActivities", JSON.stringify(all));
 }
-
-/* -------------------------------------------------------
-   Date dropdown — 7-day options
-------------------------------------------------------- */
 
 function buildDateOptions(selectEl, defaultDate) {
   if (!selectEl) return;
@@ -86,10 +86,6 @@ function getSelectedSuggestionDate() {
   return document.getElementById("detailsDateSelect")?.value || getDayDate();
 }
 
-/* -------------------------------------------------------
-   Category helper for a given date
-------------------------------------------------------- */
-
 function getCategoryForDate(dateStr) {
   const dates = stored?.forecast?.daily?.time || [];
   const codes = stored?.forecast?.daily?.weather_code || [];
@@ -101,10 +97,6 @@ function getCategoryForDate(dateStr) {
   const tempC = unit === "celsius" ? low : (low - 32) * 5 / 9;
   return getCategory(wmo, tempC);
 }
-
-/* -------------------------------------------------------
-   Add activity
-------------------------------------------------------- */
 
 function addActivity(activity, category, date) {
   const all = loadAllActivities();
@@ -120,10 +112,6 @@ function addActivity(activity, category, date) {
   showToast(`"${activity.name}" added to your plan!`);
   renderPlanList();
 }
-
-/* -------------------------------------------------------
-   Weather details
-------------------------------------------------------- */
 
 function populateWeatherDetails() {
   if (!stored || !stored.forecast) {
@@ -184,17 +172,12 @@ async function fetchActivities() {
   return res.json();
 }
 
-/* -------------------------------------------------------
-   Suggestions — date dropdown above, click = instant add
-------------------------------------------------------- */
-
 function renderSuggestions(activitiesData, baseCategory, filter) {
   const container = document.getElementById("suggestionList");
   container.innerHTML = "";
 
   const selectedDate = getSelectedSuggestionDate();
   const category     = getCategoryForDate(selectedDate) || baseCategory;
-
   const categoryData = activitiesData[category] || activitiesData["cloudy"];
 
   let items = [];
@@ -246,10 +229,6 @@ function renderSuggestions(activitiesData, baseCategory, filter) {
     subtitle.textContent = `Suggested for ${label} weather:`;
   }
 }
-
-/* -------------------------------------------------------
-   Inline edit for plan list items (name + description)
-------------------------------------------------------- */
 
 function startEditDetailsItem(li, all, globalIndex, currentName, currentDesc) {
   const actionsDiv = li.querySelector(".plan-item-actions");
@@ -308,24 +287,23 @@ function startEditDetailsItem(li, all, globalIndex, currentName, currentDesc) {
     if (e.key === "Enter")  { e.preventDefault(); saveEdit(); }
     if (e.key === "Escape") { saved = true; renderPlanList(); }
   });
-  descInput.addEventListener("blur", () => {
-    setTimeout(() => { if (!li.contains(document.activeElement)) saveEdit(); }, 100);
-  });
-  nameInput.addEventListener("blur", () => {
-    setTimeout(() => { if (!li.contains(document.activeElement)) saveEdit(); }, 100);
+
+  li.addEventListener("focusout", (e) => {
+    if (!li.contains(e.relatedTarget)) {
+      saveEdit();
+    }
   });
 }
 
-/* -------------------------------------------------------
-   Plan list — activities for the currently viewed day
-------------------------------------------------------- */
-
 function renderPlanList() {
-  const container     = document.getElementById("dayPlanList");
-  const all           = loadAllActivities();
-  const dayDate       = getDayDate();
-  const city          = getCityName();
-  const dayActivities = all.filter(a => a.date === dayDate && a.city === city);
+  const container = document.getElementById("dayPlanList");
+  const all       = loadAllActivities();
+  const dayDate   = getDayDate();
+  const city      = getCityName();
+
+  const dayActivities = all
+    .map((a, i) => ({ ...a, _globalIndex: i }))
+    .filter(a => a.date === dayDate && a.city === city);
 
   container.innerHTML = "";
 
@@ -344,12 +322,9 @@ function renderPlanList() {
     return;
   }
 
-  dayActivities.forEach((item, localIndex) => {
-    const globalIndex = all.findIndex(
-      (a, idx) => a.date === dayDate && a.city === city &&
-        all.filter((b, bi) => bi < idx && b.date === dayDate && b.city === city).length === localIndex
-    );
-    const id = `plan-${localIndex}`;
+  dayActivities.forEach((item) => {
+    const globalIndex = item._globalIndex;
+    const id = `plan-${globalIndex}`;
     const li = document.createElement("div");
     li.className = "plan-item fade-in";
     li.setAttribute("role", "listitem");
@@ -378,18 +353,15 @@ function renderPlanList() {
     });
 
     li.querySelector(".plan-action-btn.delete").addEventListener("click", () => {
-      all.splice(globalIndex, 1);
-      localStorage.setItem("selectedActivities", JSON.stringify(all));
+      const current = loadAllActivities();
+      current.splice(globalIndex, 1);
+      saveAllActivities(current);
       renderPlanList();
     });
 
     container.appendChild(li);
   });
 }
-
-/* -------------------------------------------------------
-   Toast
-------------------------------------------------------- */
 
 function showToast(message) {
   const existing = document.getElementById("toast");
@@ -422,11 +394,6 @@ function populateActivityCard(category) {
   if (descEl)     descEl.textContent     = `Here are some great activities for ${category} weather in ${cityName}. Select one to add it to your plan!`;
 }
 
-/* -------------------------------------------------------
-   Modal — "+ Add Activity" button
-   Includes date dropdown defaulting to currently viewed day
-------------------------------------------------------- */
-
 function initModal(category) {
   const modal      = document.getElementById("activityModal");
   const openBtn    = document.getElementById("openModalBtn");
@@ -442,14 +409,15 @@ function initModal(category) {
     descInput.value       = "";
     nameError.textContent = "";
     nameInput.classList.remove("error");
-    // Default to the currently viewed day
     buildDateOptions(dateSelect, getDayDate() || new Date().toISOString().slice(0, 10));
     modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
     nameInput.focus();
   }
 
   function closeModal() {
     modal.classList.add("hidden");
+    document.body.style.overflow = "";
     openBtn.focus();
   }
 
@@ -484,10 +452,6 @@ function initModal(category) {
   });
 }
 
-/* -------------------------------------------------------
-   Init
-------------------------------------------------------- */
-
 async function init() {
   const weatherInfo = populateWeatherDetails();
 
@@ -498,7 +462,6 @@ async function init() {
 
   populateActivityCard(category);
 
-  // Date dropdown defaults to the currently viewed day
   const currentDayDate = getDayDate() || new Date().toISOString().slice(0, 10);
   buildDateOptions(document.getElementById("detailsDateSelect"), currentDayDate);
 

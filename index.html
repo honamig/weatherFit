@@ -127,6 +127,17 @@
         <section class="planner-box" aria-label="Activity plan">
           <h3 class="planner-subtitle">Plan</h3>
           <div class="plan-list" id="plannerPlanList" role="list"></div>
+
+          <!-- Inline add form — shown inside the Plan card -->
+          <div class="inline-add-form hidden" id="indexInlineForm">
+            <input type="text" class="inline-add-input" id="indexInlineName" placeholder="Activity name *" maxlength="80" autocomplete="off" />
+            <input type="text" class="inline-add-input" id="indexInlineDesc" placeholder="Description (optional)" maxlength="120" autocomplete="off" />
+            <div class="inline-add-actions">
+              <button type="button" class="btn-inline-cancel" id="indexInlineCancel">Cancel</button>
+              <button type="button" class="btn-inline-confirm" id="indexInlineConfirm">Add to Plan</button>
+            </div>
+          </div>
+
           <button type="button" id="indexOpenModalBtn" class="btn-add-activity-full btn-hover ripple" aria-label="Add new activity">
             + Add Activity
           </button>
@@ -136,27 +147,8 @@
     </div>
   </main>
 
-  <!-- Add Activity Modal (index) -->
-  <div class="modal-overlay hidden" id="indexActivityModal" role="dialog" aria-modal="true" aria-labelledby="indexModalTitle">
-    <div class="modal-box">
-      <h2 class="modal-title" id="indexModalTitle">Add an Activity</h2>
-      <div class="modal-field">
-        <label class="modal-label" for="indexModalActivityName">Activity name <span aria-hidden="true">*</span></label>
-        <input type="text" id="indexModalActivityName" class="modal-input" placeholder="e.g. Morning run" maxlength="80" autocomplete="off" />
-        <span class="modal-error" id="indexModalNameError" aria-live="polite"></span>
-      </div>
-      <div class="modal-field">
-        <label class="modal-label" for="indexModalActivityDesc">Description (optional)</label>
-        <input type="text" id="indexModalActivityDesc" class="modal-input" placeholder="e.g. 30 min jog around the park" maxlength="120" autocomplete="off" />
-      </div>
-      <div class="modal-actions">
-        <button class="btn-modal-cancel" type="button" id="indexCancelModalBtn">Cancel</button>
-        <button class="btn-modal-add" type="button" id="indexConfirmModalBtn">Add to Plan</button>
-      </div>
-    </div>
-  </div>
-
   <footer class="app-footer"><small>© 2026 WeatherFit</small></footer>
+
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
