@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="WeatherFit is a real-time weather dashboard with weekly forecast and smart activity planning based on current weather conditions.">
   <title>WeatherFit</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-
   <link rel="stylesheet" href="css/base.css" />
   <link rel="icon" href="img/favicon.png" type="image/png" />
 </head>
-
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -27,29 +24,19 @@
         </div>
       </div>
     </div>
-
     <form class="search-form" id="searchForm" action="#" method="get" novalidate>
       <label class="sr-only" for="searchCity">Search city</label>
-      <input
-        type="search"
-        id="searchCity"
-        name="city"
-        placeholder="Search city"
-        autocomplete="off"
-        required
-      />
+      <input type="search" id="searchCity" name="city" placeholder="Search city" autocomplete="off" required />
       <button type="submit" id="searchBtn">Search</button>
     </form>
-
     <p id="statusMsg" role="status" aria-live="polite"></p>
   </header>
 
   <main id="main" class="page">
     <div class="layout">
 
-      <!-- ── Weather Panel ── -->
+      <!-- Weather Panel -->
       <section class="weather-panel" aria-label="Weather dashboard">
-
         <section class="location-block" aria-label="Location and unit">
           <div class="location-left">
             <p class="country" id="country">COUNTRY</p>
@@ -77,60 +64,38 @@
           <div class="weather-image-wrap">
             <img id="weatherImage" src="img/hero/default.jpg" alt="" />
             <div class="image-overlay">
-              <div class="overlay-left">
-                <p class="big-temp" id="tempNow">--°</p>
-              </div>
+              <div class="overlay-left"><p class="big-temp" id="tempNow">--°</p></div>
               <div class="overlay-right">
                 <p class="desc" id="conditionText">Weather</p>
                 <p class="feels">Feels like <span id="feelsLike">--°</span></p>
               </div>
             </div>
           </div>
-
           <div class="stats-grid" aria-label="Weather details">
             <div class="stat">
-              <div class="stat-top">
-                <img class="stat-icon" src="img/icons/wind.png" alt="" width="18" height="18">
-                <span>Wind</span>
-              </div>
+              <div class="stat-top"><img class="stat-icon" src="img/icons/wind.png" alt="" width="18" height="18"><span>Wind</span></div>
               <p id="wind">--</p>
             </div>
             <div class="stat">
-              <div class="stat-top">
-                <img class="stat-icon" src="img/icons/humidity.png" alt="" width="18" height="18">
-                <span>Humidity</span>
-              </div>
+              <div class="stat-top"><img class="stat-icon" src="img/icons/humidity.png" alt="" width="18" height="18"><span>Humidity</span></div>
               <p id="humidity">--%</p>
             </div>
             <div class="stat">
-              <div class="stat-top">
-                <img class="stat-icon" src="img/icons/high.png" alt="" width="18" height="18">
-                <span>High</span>
-              </div>
+              <div class="stat-top"><img class="stat-icon" src="img/icons/high.png" alt="" width="18" height="18"><span>High</span></div>
               <p id="tempHigh">--°</p>
             </div>
             <div class="stat">
-              <div class="stat-top">
-                <img class="stat-icon" src="img/icons/low.png" alt="" width="18" height="18">
-                <span>Low</span>
-              </div>
+              <div class="stat-top"><img class="stat-icon" src="img/icons/low.png" alt="" width="18" height="18"><span>Low</span></div>
               <p id="tempLow">--°</p>
             </div>
           </div>
-
           <div class="sun-row" aria-label="Sun times">
             <div class="sun-item sunrise">
               <img src="img/icons/sunrise.png" alt="" class="sun-icon" width="22" height="22">
-              <div class="sun-text">
-                <span>Sunrise</span>
-                <strong id="sunrise">--</strong>
-              </div>
+              <div class="sun-text"><span>Sunrise</span><strong id="sunrise">--</strong></div>
             </div>
             <div class="sun-item sunset">
-              <div class="sun-text">
-                <span>Sunset</span>
-                <strong id="sunset">--</strong>
-              </div>
+              <div class="sun-text"><span>Sunset</span><strong id="sunset">--</strong></div>
               <img src="img/icons/sunset.png" alt="" class="sun-icon" width="22" height="22">
             </div>
           </div>
@@ -140,50 +105,58 @@
           <h2 class="section-title">HOURLY FORECAST</h2>
           <div class="hourly-row" id="hourlyRow" role="list"></div>
         </section>
-
       </section>
 
-      <!-- ── Planner Sidebar ── -->
+      <!-- Planner Sidebar -->
       <aside class="planner-panel" aria-label="Activity planner">
         <h2 class="section-title">ACTIVITY PLANNER</h2>
 
         <!-- Suggestions -->
         <section class="planner-box" aria-label="Suggestions">
           <h3 class="planner-subtitle" id="plannerSuggestionTitle">Suggestions</h3>
+          <div class="filter-row">
+            <label for="plannerDateSelect" class="filter-label">Date:</label>
+            <select id="plannerDateSelect" class="filter-select" aria-label="Select date for activity"></select>
+          </div>
           <div class="suggestion-list" id="plannerSuggestionList" role="list">
             <p class="plan-empty">Search a city to see suggestions.</p>
           </div>
         </section>
 
-        <!-- Today's Plan -->
-        <section class="planner-box" aria-label="Today's plan">
-          <h3 class="planner-subtitle">Today's plan</h3>
-
-          <label class="sr-only" for="todayPlanInput">Add an activity</label>
-          <div class="plan-input-row">
-            <input
-              type="text"
-              id="todayPlanInput"
-              placeholder="Add an activity and press Enter…"
-              autocomplete="off"
-              maxlength="100"
-            />
-            <button type="button" id="addPlanBtn" class="btn-add-activity btn-hover" aria-label="Add activity">+</button>
-          </div>
-
-          <!-- Plan list -->
+        <!-- Plan List -->
+        <section class="planner-box" aria-label="Activity plan">
+          <h3 class="planner-subtitle">Plan</h3>
           <div class="plan-list" id="plannerPlanList" role="list"></div>
+          <button type="button" id="indexOpenModalBtn" class="btn-add-activity-full btn-hover ripple" aria-label="Add new activity">
+            + Add Activity
+          </button>
         </section>
-
       </aside>
 
     </div>
   </main>
 
-  <footer class="app-footer">
-    <small>© 2026 WeatherFit</small>
-  </footer>
+  <!-- Add Activity Modal (index) -->
+  <div class="modal-overlay hidden" id="indexActivityModal" role="dialog" aria-modal="true" aria-labelledby="indexModalTitle">
+    <div class="modal-box">
+      <h2 class="modal-title" id="indexModalTitle">Add an Activity</h2>
+      <div class="modal-field">
+        <label class="modal-label" for="indexModalActivityName">Activity name <span aria-hidden="true">*</span></label>
+        <input type="text" id="indexModalActivityName" class="modal-input" placeholder="e.g. Morning run" maxlength="80" autocomplete="off" />
+        <span class="modal-error" id="indexModalNameError" aria-live="polite"></span>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="indexModalActivityDesc">Description (optional)</label>
+        <input type="text" id="indexModalActivityDesc" class="modal-input" placeholder="e.g. 30 min jog around the park" maxlength="120" autocomplete="off" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" type="button" id="indexCancelModalBtn">Cancel</button>
+        <button class="btn-modal-add" type="button" id="indexConfirmModalBtn">Add to Plan</button>
+      </div>
+    </div>
+  </div>
 
+  <footer class="app-footer"><small>© 2026 WeatherFit</small></footer>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

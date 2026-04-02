@@ -6,15 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Activity details for your WeatherFit plan">
   <title>Activity Details - WeatherFit</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/details.css" />
 </head>
-
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -26,9 +23,7 @@
         </svg>
         <span>Back</span>
       </a>
-      <div class="brand">
-        <h1 class="page-title">Activity Details</h1>
-      </div>
+      <div class="brand"><h1 class="page-title">Activity Details</h1></div>
     </div>
   </header>
 
@@ -45,22 +40,10 @@
           </div>
         </div>
         <div class="activity-info-grid">
-          <div class="info-item">
-            <span class="info-label">Location</span>
-            <p class="info-value" id="activityLocation"></p>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Time</span>
-            <p class="info-value" id="activityTime"></p>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Duration</span>
-            <p class="info-value" id="activityDuration"></p>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Date</span>
-            <p class="info-value" id="activityDate"></p>
-          </div>
+          <div class="info-item"><span class="info-label">Location</span><p class="info-value" id="activityLocation"></p></div>
+          <div class="info-item"><span class="info-label">Time</span><p class="info-value" id="activityTime"></p></div>
+          <div class="info-item"><span class="info-label">Duration</span><p class="info-value" id="activityDuration"></p></div>
+          <div class="info-item"><span class="info-label">Date</span><p class="info-value" id="activityDate"></p></div>
         </div>
         <div class="activity-description">
           <h3 class="description-title">Description</h3>
@@ -79,38 +62,19 @@
           </div>
         </div>
         <div class="day-details-grid">
-          <div class="detail-item">
-            <span class="detail-label">High</span>
-            <p class="detail-value" id="dayHigh"></p>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Low</span>
-            <p class="detail-value" id="dayLow"></p>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Humidity</span>
-            <p class="detail-value" id="dayHumidity"></p>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Wind</span>
-            <p class="detail-value" id="dayWind"></p>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Sunrise</span>
-            <p class="detail-value" id="daySunrise">--</p>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Sunset</span>
-            <p class="detail-value" id="daySunset">--</p>
-          </div>
+          <div class="detail-item"><span class="detail-label">High</span><p class="detail-value" id="dayHigh"></p></div>
+          <div class="detail-item"><span class="detail-label">Low</span><p class="detail-value" id="dayLow"></p></div>
+          <div class="detail-item"><span class="detail-label">Humidity</span><p class="detail-value" id="dayHumidity"></p></div>
+          <div class="detail-item"><span class="detail-label">Wind</span><p class="detail-value" id="dayWind"></p></div>
+          <div class="detail-item"><span class="detail-label">Sunrise</span><p class="detail-value" id="daySunrise">--</p></div>
+          <div class="detail-item"><span class="detail-label">Sunset</span><p class="detail-value" id="daySunset">--</p></div>
         </div>
       </section>
 
       <!-- Plan for This Day Card -->
       <section class="card plan-card fade-in-delay-2" aria-label="Plan for this day">
         <h2 class="card-title">Plan for This Day</h2>
-        <div class="plan-list" role="list" id="dayPlanList">
-        </div>
+        <div class="plan-list" role="list" id="dayPlanList"></div>
         <button class="btn-add-activity-full btn-hover ripple" type="button" id="openModalBtn" aria-label="Add new activity">
           + Add Activity
         </button>
@@ -120,6 +84,10 @@
       <section class="card suggestions-card fade-in-delay-1" aria-label="Activity suggestions">
         <h2 class="card-title">Activity Suggestions</h2>
         <div class="filter-row">
+          <label for="detailsDateSelect" class="filter-label">Date:</label>
+          <select id="detailsDateSelect" class="filter-select" aria-label="Select date for activity"></select>
+        </div>
+        <div class="filter-row">
           <label for="activityFilter" class="filter-label">Filter Activities:</label>
           <select id="activityFilter" class="filter-select" aria-label="Filter activities by type">
             <option value="all">All Activities</option>
@@ -128,43 +96,29 @@
           </select>
         </div>
         <h3 class="planner-subtitle" id="suggestionSubtitle">Suggested activities:</h3>
-        <div class="suggestion-list" role="list" id="suggestionList">
-        </div>
+        <div class="suggestion-list" role="list" id="suggestionList"></div>
       </section>
 
     </div>
   </main>
 
-  <!-- Add Activity Modal -->
+  <!-- Add Activity Modal (details) — includes date dropdown -->
   <div class="modal-overlay hidden" id="activityModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-box">
       <h2 class="modal-title" id="modalTitle">Add an Activity</h2>
-
       <div class="modal-field">
         <label class="modal-label" for="modalActivityName">Activity name <span aria-hidden="true">*</span></label>
-        <input
-          type="text"
-          id="modalActivityName"
-          class="modal-input"
-          placeholder="e.g. Morning run"
-          maxlength="80"
-          autocomplete="off"
-        />
+        <input type="text" id="modalActivityName" class="modal-input" placeholder="e.g. Morning run" maxlength="80" autocomplete="off" />
         <span class="modal-error" id="modalNameError" aria-live="polite"></span>
       </div>
-
       <div class="modal-field">
         <label class="modal-label" for="modalActivityDesc">Description (optional)</label>
-        <input
-          type="text"
-          id="modalActivityDesc"
-          class="modal-input"
-          placeholder="e.g. 30 min jog around the park"
-          maxlength="120"
-          autocomplete="off"
-        />
+        <input type="text" id="modalActivityDesc" class="modal-input" placeholder="e.g. 30 min jog around the park" maxlength="120" autocomplete="off" />
       </div>
-
+      <div class="modal-field">
+        <label class="modal-label" for="modalActivityDate">Date <span aria-hidden="true">*</span></label>
+        <select id="modalActivityDate" class="modal-input modal-select"></select>
+      </div>
       <div class="modal-actions">
         <button class="btn-modal-cancel" type="button" id="cancelModalBtn">Cancel</button>
         <button class="btn-modal-add" type="button" id="confirmModalBtn">Add to Plan</button>
@@ -172,10 +126,7 @@
     </div>
   </div>
 
-  <footer class="app-footer">
-    <small>© 2026 WeatherFit</small>
-  </footer>
-
+  <footer class="app-footer"><small>© 2026 WeatherFit</small></footer>
   <script type="module" src="js/details.js"></script>
 </body>
 </html>
